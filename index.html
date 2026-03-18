@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Elicitación de Requisitos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/base.css"/>
+<link rel="stylesheet" href="css/layout.css"/>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Ingeniería de Software · Análisis</div>
+    <h1>Elicitación de<br/><em>Requisitos</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      El arte de descubrir, capturar y comprender lo que los stakeholders realmente necesitan de un sistema de software.
+    </p>
+    <nav class="nav-pills">
+      <a href="#intro">¿Qué es?</a>
+      <a href="#tecnicas">Técnicas</a>
+      <a href="#prospeccion">Prospección</a>
+      <a href="#creatividad">Creatividad</a>
+      <a href="#documentacion">Documentación</a>
+      <a href="#observacion">Observación</a>
+      <a href="juego-topdown.html" style="border-color:rgba(130,217,133,0.5);color:#82d985">🎮 Juego</a>
+      <a href="quiz-millonario.html"  style="border-color:rgba(232,100,90,0.5);color:#e8645a">📝 Quiz</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ══════════ INTRO ══════════ -->
+<section class="section" id="intro">
+  <div class="section-header">
+    <div class="section-num">00</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent1)">Fundamentos</div>
+      <h2 class="section-title">¿Qué es la Elicitación de Requisitos?</h2>
+      <p class="section-intro">
+        La elicitación de requisitos es el proceso mediante el cual se identifican, recopilan y articulan las necesidades y expectativas de los stakeholders para construir un sistema de software exitoso.
+      </p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <blockquote>"La elicitación no es simplemente preguntar qué quiere el usuario — es descubrir lo que realmente necesita."</blockquote>
+    <cite>— Ian Sommerville, Software Engineering</cite>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 / IDENTIFICAR</div>
+      <h4>Stakeholders</h4>
+      <p>Reconocer a todos los actores con interés en el sistema.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02 / RECOPILAR</div>
+      <h4>Necesidades</h4>
+      <p>Extraer información a través de diversas técnicas.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03 / ANALIZAR</div>
+      <h4>Información</h4>
+      <p>Filtrar, clasificar y priorizar los requisitos obtenidos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04 / VALIDAR</div>
+      <h4>Requisitos</h4>
+      <p>Confirmar que los requisitos reflejan las expectativas reales.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ TÉCNICAS GENERALES ══════════ -->
+<section class="section" id="tecnicas">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent2)">Categorías</div>
+      <h2 class="section-title">Técnicas de Elicitación de Requisitos</h2>
+      <p class="section-intro">
+        Existen múltiples familias de técnicas, cada una adecuada para contextos, tipos de sistemas y perfiles de stakeholders distintos.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards cards-3">
+    <div class="card c-violet">
+      <div class="card-icon">🎯</div>
+      <h3>Técnicas de Prospección</h3>
+      <p>Orientadas a explorar el dominio del problema mediante entrevistas, cuestionarios y análisis de negocio.</p>
+      <div class="badge-row">
+        <span class="badge badge-violet">Entrevistas</span>
+        <span class="badge badge-violet">Encuestas</span>
+      </div>
+    </div>
+    <div class="card c-gold">
+      <div class="card-icon">💡</div>
+      <h3>Técnicas de Creatividad</h3>
+      <p>Fomentan la generación de ideas innovadoras, rompiendo paradigmas y descubriendo requisitos no evidentes.</p>
+      <div class="badge-row">
+        <span class="badge badge-gold">Brainstorming</span>
+        <span class="badge badge-gold">SCAMPER</span>
+      </div>
+    </div>
+    <div class="card c-teal">
+      <div class="card-icon">📄</div>
+      <h3>Técnicas de Documentación</h3>
+      <p>Extraen requisitos de documentos existentes, normativas, manuales y sistemas legados.</p>
+      <div class="badge-row">
+        <span class="badge badge-teal">Arqueología</span>
+        <span class="badge badge-teal">Reutilización</span>
+      </div>
+    </div>
+    <div class="card c-red">
+      <div class="card-icon">👁️</div>
+      <h3>Técnicas de Observación</h3>
+      <p>Permiten capturar el comportamiento real de los usuarios en su entorno de trabajo natural.</p>
+      <div class="badge-row">
+        <span class="badge badge-red">Field Study</span>
+        <span class="badge badge-red">Etnografía</span>
+      </div>
+    </div>
+    <div class="card c-green">
+      <div class="card-icon">🔗</div>
+      <h3>Técnicas Mixtas</h3>
+      <p>Combinan múltiples enfoques para obtener una visión más completa y robusta de los requisitos.</p>
+      <div class="badge-row">
+        <span class="badge badge-green">Talleres JAD</span>
+        <span class="badge badge-green">Prototipos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ PROSPECCIÓN ══════════ -->
+<section class="section" id="prospeccion">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent2)">Exploración</div>
+      <h2 class="section-title">Técnicas de Prospección</h2>
+      <p class="section-intro">Buscan explorar activamente el dominio del problema para descubrir qué necesitan los stakeholders mediante comunicación directa.</p>
+    </div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(124,106,247,0.3)">
+    <div>
+      <div class="feat-label" style="color:var(--accent2)">Técnica Principal</div>
+      <h3>Entrevistas</h3>
+      <p>La técnica más utilizada. Consiste en sesiones de diálogo estructuradas o semiestructuradas con stakeholders clave para extraer conocimiento, expectativas y restricciones del sistema.</p>
+      <div class="badge-row">
+        <span class="badge badge-violet">Estructurada</span>
+        <span class="badge badge-violet">No estructurada</span>
+        <span class="badge badge-violet">Semiestructurada</span>
+      </div>
+    </div>
+    <ul class="feat-list">
+      <li><span class="dot" style="background:var(--accent2)"></span>Preparar preguntas abiertas y cerradas</li>
+      <li><span class="dot" style="background:var(--accent2)"></span>Grabar con consentimiento del entrevistado</li>
+      <li><span class="dot" style="background:var(--accent2)"></span>Analizar respuestas inmediatamente</li>
+      <li><span class="dot" style="background:var(--accent2)"></span>Validar resúmenes con el entrevistado</li>
+      <li><span class="dot" style="background:var(--accent2)"></span>Identificar contradicciones entre versiones</li>
+    </ul>
+  </div>
+  <div class="cards cards-3">
+    <div class="card c-violet"><div class="card-icon">📋</div><h3>Cuestionarios y Encuestas</h3><p>Recopilan información de múltiples stakeholders de forma paralela. Ideales cuando el número de personas es elevado.</p></div>
+    <div class="card c-violet"><div class="card-icon">🤝</div><h3>Talleres JAD/RAD</h3><p><em>Joint/Rapid Application Development</em>. Sesiones colaborativas donde desarrolladores y usuarios trabajan conjuntamente en tiempo real.</p></div>
+    <div class="card c-violet"><div class="card-icon">📊</div><h3>Análisis de Negocio</h3><p>Estudio de procesos, flujos de trabajo y modelos organizacionales para identificar necesidades sistémicas alineadas con los objetivos del negocio.</p></div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ CREATIVIDAD ══════════ -->
+<section class="section" id="creatividad">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent1)">Innovación</div>
+      <h2 class="section-title">Técnicas de Creatividad</h2>
+      <p class="section-intro">Cuando los stakeholders no saben exactamente qué quieren, las técnicas creativas permiten generar ideas y descubrir requisitos latentes e innovadores.</p>
+    </div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(200,169,110,0.3)">
+    <div>
+      <div class="feat-label" style="color:var(--accent1)">Técnica Estrella</div>
+      <h3>Brainstorming</h3>
+      <p>Sesión grupal donde se generan ideas sin crítica ni restricción. El objetivo es cantidad antes que calidad.</p>
+      <div class="badge-row">
+        <span class="badge badge-gold">Grupal</span>
+        <span class="badge badge-gold">Individual</span>
+        <span class="badge badge-gold">6-3-5 Brainwriting</span>
+      </div>
+    </div>
+    <ul class="feat-list">
+      <li><span class="dot" style="background:var(--accent1)"></span>No juzgar ideas durante la sesión</li>
+      <li><span class="dot" style="background:var(--accent1)"></span>Fomentar ideas "salvajes" o innovadoras</li>
+      <li><span class="dot" style="background:var(--accent1)"></span>Construir sobre ideas de otros</li>
+      <li><span class="dot" style="background:var(--accent1)"></span>Registrar absolutamente todo</li>
+      <li><span class="dot" style="background:var(--accent1)"></span>Seleccionar y refinar al final</li>
+    </ul>
+  </div>
+  <div class="cards cards-2" style="margin-top:1.25rem">
+    <div class="card c-gold"><div class="card-icon">🔄</div><h3>SCAMPER</h3><p>Técnica estructurada: <strong>S</strong>ustituir, <strong>C</strong>ombinar, <strong>A</strong>daptar, <strong>M</strong>odificar, <strong>P</strong>oner en otros usos, <strong>E</strong>liminar, <strong>R</strong>eorganizar.</p></div>
+    <div class="card c-gold"><div class="card-icon">🃏</div><h3>Analogías y Metáforas</h3><p>Comparar el sistema con objetos o situaciones del mundo real para facilitar la comunicación entre técnicos y no técnicos.</p></div>
+    <div class="card c-gold"><div class="card-icon">🎲</div><h3>Pensamiento de Diseño</h3><p><em>Design Thinking</em>. Proceso centrado en el humano: empatizar, definir, idear, prototipar y testear.</p></div>
+    <div class="card c-gold"><div class="card-icon">🗺️</div><h3>Mapas Mentales</h3><p>Representación visual jerárquica de conceptos. Permite explorar dominios de manera no lineal descubriendo conexiones ocultas.</p></div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ DOCUMENTACIÓN ══════════ -->
+<section class="section" id="documentacion">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent3)">Archivo</div>
+      <h2 class="section-title">Técnicas Centradas en la Documentación</h2>
+      <p class="section-intro">Extraen conocimiento de fuentes documentales existentes: manuales, normativas, sistemas legados, contratos y especificaciones previas.</p>
+    </div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(78,205,196,0.3)">
+    <div>
+      <div class="feat-label" style="color:var(--accent3)">Técnica Base</div>
+      <h3>Arqueología de Sistemas</h3>
+      <p>Análisis profundo de sistemas existentes para extraer requisitos implícitos. Esencial cuando se reemplaza un sistema heredado sin documentación actualizada.</p>
+      <div class="badge-row">
+        <span class="badge badge-teal">Sistemas legacy</span>
+        <span class="badge badge-teal">Migración</span>
+        <span class="badge badge-teal">Reingeniería</span>
+      </div>
+    </div>
+    <ul class="feat-list">
+      <li><span class="dot" style="background:var(--accent3)"></span>Revisar código fuente existente</li>
+      <li><span class="dot" style="background:var(--accent3)"></span>Analizar bases de datos en producción</li>
+      <li><span class="dot" style="background:var(--accent3)"></span>Estudiar interfaces de usuario actuales</li>
+      <li><span class="dot" style="background:var(--accent3)"></span>Examinar logs y reportes históricos</li>
+      <li><span class="dot" style="background:var(--accent3)"></span>Documentar comportamientos implícitos</li>
+    </ul>
+  </div>
+  <div class="cards cards-3" style="margin-top:1.25rem">
+    <div class="card c-teal"><div class="card-icon">📜</div><h3>Análisis de Documentos</h3><p>Revisión sistemática de manuales, procedimientos, contratos y políticas institucionales para identificar restricciones no expresadas verbalmente.</p></div>
+    <div class="card c-teal"><div class="card-icon">♻️</div><h3>Reutilización de Requisitos</h3><p>Aprovechamiento de especificaciones de proyectos anteriores similares. Reduce tiempos y aprovecha el conocimiento organizacional acumulado.</p></div>
+    <div class="card c-teal"><div class="card-icon">⚖️</div><h3>Análisis Normativo</h3><p>Identificación de requisitos derivados de leyes, regulaciones, estándares industriales (ISO, IEEE) y marcos de cumplimiento obligatorio.</p></div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ OBSERVACIÓN ══════════ -->
+<section class="section" id="observacion">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent4)">Campo</div>
+      <h2 class="section-title">Técnicas de Observación</h2>
+      <p class="section-intro">Permiten capturar el comportamiento real de los usuarios en su entorno natural, descubriendo requisitos que los stakeholders no pueden verbalizar.</p>
+    </div>
+  </div>
+  <div class="quote-block" style="border-left-color:var(--accent4); background:linear-gradient(135deg,rgba(232,100,90,0.08),rgba(200,169,110,0.04))">
+    <blockquote>"Lo que la gente dice que hace y lo que realmente hace suelen ser cosas muy diferentes."</blockquote>
+    <cite>— Principio fundamental de la Etnografía Aplicada</cite>
+  </div>
+  <div class="feat-card" style="border-color:rgba(232,100,90,0.3)">
+    <div>
+      <div class="feat-label" style="color:var(--accent4)">Técnica Central</div>
+      <h3>Observación Directa (Field Study)</h3>
+      <p>El analista se desplaza al lugar de trabajo del usuario y observa cómo realiza sus tareas en tiempo real, sin intervenir. Revela procesos informales y necesidades tácitas.</p>
+      <div class="badge-row">
+        <span class="badge badge-red">Pasiva</span>
+        <span class="badge badge-red">Participativa</span>
+        <span class="badge badge-red">Contextual</span>
+      </div>
+    </div>
+    <ul class="feat-list">
+      <li><span class="dot" style="background:var(--accent4)"></span>No interrumpir el flujo de trabajo</li>
+      <li><span class="dot" style="background:var(--accent4)"></span>Registrar tiempos y frecuencias</li>
+      <li><span class="dot" style="background:var(--accent4)"></span>Notar excepciones y casos atípicos</li>
+      <li><span class="dot" style="background:var(--accent4)"></span>Documentar el entorno físico</li>
+      <li><span class="dot" style="background:var(--accent4)"></span>Identificar herramientas informales usadas</li>
+    </ul>
+  </div>
+  <div class="cards cards-3" style="margin-top:1.25rem">
+    <div class="card c-red"><div class="card-icon">🏘️</div><h3>Etnografía</h3><p>El analista se integra en el entorno del usuario durante un período prolongado. Descubre patrones culturales y normas informales en contexto real.</p></div>
+    <div class="card c-red"><div class="card-icon">📝</div><h3>Análisis de Protocolo</h3><p>El usuario verbaliza en voz alta su proceso de pensamiento mientras realiza una tarea (<em>Think Aloud</em>), revelando decisiones y estrategias mentales.</p></div>
+    <div class="card c-red"><div class="card-icon">🎬</div><h3>Shadowing</h3><p>El analista "sigue como una sombra" al usuario durante su jornada completa, capturando una visión holística de actividades, interrupciones y prioridades reales.</p></div>
+  </div>
+</section>
+
+<hr class="sep"/>
+
+<!-- ══════════ ACTIVIDADES ══════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">→</div>
+    <div class="section-title-block">
+      <div class="section-tag" style="color:var(--accent5)">Interactivo</div>
+      <h2 class="section-title">Pon a Prueba tu Conocimiento</h2>
+      <p class="section-intro">Practica lo aprendido con un juego de emparejamiento y un quiz de 10 preguntas.</p>
+    </div>
+  </div>
+
+  <div class="page-cards">
+    <a href="juego-topdown.html" class="page-card">
+      <div class="page-card-emoji">🎮</div>
+      <h3>Juego de Emparejamiento</h3>
+      <p>Relaciona cada técnica con su descripción correcta. Conecta 8 pares y gana puntos por precisión.</p>
+      <div class="page-card-link">Jugar ahora →</div>
+    </a>
+    <a href="quiz-millonario.html" class="page-card">
+      <div class="page-card-emoji">📝</div>
+      <h3>Quiz de 10 Preguntas</h3>
+      <p>Responde preguntas de opción múltiple sobre todas las técnicas de elicitación de requisitos.</p>
+      <div class="page-card-link">Iniciar quiz →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <p>Elicitación de Requisitos · Ingeniería de Software</p>
+  <p style="margin-top:0.5rem">Técnicas de Prospección · Creatividad · Documentación · Observación</p>
+  <p style="margin-top:1rem;opacity:0.5">Elaborado con <span>♦</span> para el estudio de Ingeniería de Software</p>
+</footer>
+
+<script src="js/animations.js"></script>
+</body>
+</html>
