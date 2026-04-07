@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyectos de Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/componentes.css">
+</head>
+<body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<nav>
+  <div class="wrapper">
+    <div class="inner">
+      <a class="nav-logo" href="index.html">software<em>.</em>wiki</a>
+      <div class="nav-links">
+        <a href="pages/caracteristicas.html">Características</a>
+        <a href="pages/tipos.html">Tipos</a>
+        <a href="pages/componentes.html">Componentes</a>
+        <a href="pages/actividades.html">Actividades</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="wrapper">
+  <div class="hero">
+    <div class="hero-eyebrow">Ingeniería de Software</div>
+    <h1>Proyectos de<br><span class="g">Soft</span><span class="p">ware</span></h1>
+    <p class="hero-desc">Todo lo que necesitas saber sobre las características, tipos y componentes de un proyecto de software</p>
+    <div class="hero-ctas">
+      <a href="pages/caracteristicas.html" class="btn btn-primary">Explorar contenido</a>
+      <a href="pages/componentes.html" class="btn btn-ghost">Ver componentes</a>
+    </div>
+  </div>
+</div>
+
+<!-- CARDS DE ACCESO -->
+<section class="pg" style="border-top:1px solid var(--border); padding:80px 0;">
+  <div class="wrapper">
+    <div class="sec-head reveal">
+      <span class="sec-num">Contenido</span>
+      <h2>Tres temas clave</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;" class="reveal">
+
+      <a href="pages/caracteristicas.html" style="text-decoration:none;">
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:36px; transition:all .25s; height:100%;" onmouseover="this.style.borderColor='rgba(108,99,255,.4)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
+          <div style="width:48px; height:48px; background:rgba(108,99,255,.12); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px;">⚙️</div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#a89fff; margin-bottom:10px;">01 · Características</div>
+          <div style="font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:12px; letter-spacing:-0.5px;">12 propiedades clave</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.7;">Intangibilidad, complejidad, escalabilidad, mantenibilidad, portabilidad, seguridad, usabilidad y más — explicadas a detalle.</div>
+        </div>
+      </a>
+
+      <a href="pages/tipos.html" style="text-decoration:none;">
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:36px; transition:all .25s; height:100%;" onmouseover="this.style.borderColor='rgba(0,212,168,.4)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
+          <div style="width:48px; height:48px; background:rgba(0,212,168,.1); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px;">🗂</div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent2); margin-bottom:10px;">02 · Tipos</div>
+          <div style="font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:12px; letter-spacing:-0.5px;">Clasificación completa</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.7;">Por plataforma, por propósito y por tipo de acceso — cada categoría explicada con sus tecnologías y casos de uso reales.</div>
+        </div>
+      </a>
+
+      <a href="pages/componentes.html" style="text-decoration:none;">
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:36px; transition:all .25s; height:100%;" onmouseover="this.style.borderColor='rgba(255,169,77,.4)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
+          <div style="width:48px; height:48px; background:rgba(255,169,77,.1); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px;">🧩</div>
+          <div style="font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent4); margin-bottom:10px;">03 · Componentes</div>
+          <div style="font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:12px; letter-spacing:-0.5px;">Las 5 capas del sistema</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.7;">Frontend, Backend, Base de datos, Infraestructura y Documentación — con estructura de carpetas detallada.</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrapper"><p>Proyectos de Software · <strong>Características · Tipos · Componentes</strong></p></div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

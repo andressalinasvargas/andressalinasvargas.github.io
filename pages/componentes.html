@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Componentes — Proyectos de Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/componentes.css">
+</head>
+<body>
+<div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+<nav><div class="wrapper"><div class="inner">
+  <a class="nav-logo" href="../index.html">software<em>.</em>wiki</a>
+  <div class="nav-links">
+    <a href="caracteristicas.html">Características</a>
+    <a href="tipos.html">Tipos</a>
+    <a href="componentes.html" class="active">Componentes</a>
+    <a href="actividades.html">Actividades</a>
+  </div>
+</div></div></nav>
+
+<section class="pg">
+  <div class="wrapper">
+    <div class="sec-head reveal">
+      <span class="sec-num">03 · Componentes</span>
+      <h2>Partes de un proyecto web</h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="comp-intro reveal">
+      <p>Un proyecto de software web se organiza en <strong>capas</strong> con responsabilidades bien definidas que se comunican entre sí.</p>
+    </div>
+
+    <!-- CAPAS -->
+    <div class="comp-layers reveal">
+
+      <!-- FRONTEND -->
+      <div class="comp-layer l1">
+        <div class="comp-layer-head">
+          <div class="comp-layer-label">
+            <div class="l-left">
+              <div class="l-num">Capa 01</div>
+              <div class="l-name" style="color:#a89fff;">Frontend</div>
+              <div class="l-sub">Capa de presentación</div>
+            </div>
+            <div class="l-divider"></div>
+          </div>
+          <div class="comp-layer-body">
+            <p>La parte visible del sistema. Muestra información y captura la interacción del usuario en el navegador.</p>
+            <div class="tech-row">
+              <span class="tech" style="background:rgba(227,76,38,.12);border-color:rgba(227,76,38,.3);color:#e34c26;">HTML5</span>
+              <span class="tech" style="background:rgba(21,114,182,.12);border-color:rgba(21,114,182,.3);color:#1572b6;">CSS3</span>
+              <span class="tech" style="background:rgba(240,219,79,.12);border-color:rgba(240,219,79,.3);color:#e5c07b;">JavaScript</span>
+              <span class="tech" style="background:rgba(97,175,239,.12);border-color:rgba(97,175,239,.3);color:#61afef;">React</span>
+              <span class="tech" style="background:rgba(65,184,131,.12);border-color:rgba(65,184,131,.3);color:#41b883;">Vue.js</span>
+            </div>
+            <div class="detail-list">
+              <div class="dl-item"><div class="dl-title">HTML — Estructura</div><div class="dl-desc">Define elementos: títulos, formularios, botones e imágenes.</div></div>
+              <div class="dl-item"><div class="dl-title">CSS — Estilos</div><div class="dl-desc">Controla colores, fuentes, espaciado y diseño responsivo.</div></div>
+              <div class="dl-item"><div class="dl-title">JavaScript — Interactividad</div><div class="dl-desc">Validaciones, llamadas al servidor y actualizaciones dinámicas.</div></div>
+              <div class="dl-item"><div class="dl-title">Diseño responsivo</div><div class="dl-desc">Adapta la interfaz a cualquier tamaño de pantalla.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACKEND -->
+      <div class="comp-layer l2">
+        <div class="comp-layer-head">
+          <div class="comp-layer-label">
+            <div class="l-left">
+              <div class="l-num">Capa 02</div>
+              <div class="l-name" style="color:#00d4a8;">Backend</div>
+              <div class="l-sub">Capa de lógica</div>
+            </div>
+            <div class="l-divider"></div>
+          </div>
+          <div class="comp-layer-body">
+            <p>El servidor que procesa solicitudes, aplica las reglas del negocio y conecta con la base de datos.</p>
+            <div class="tech-row">
+              <span class="tech" style="background:rgba(119,123,179,.12);border-color:rgba(119,123,179,.3);color:#7b7fc4;">PHP</span>
+              <span class="tech" style="background:rgba(104,160,99,.12);border-color:rgba(104,160,99,.3);color:#68b06f;">Node.js</span>
+              <span class="tech" style="background:rgba(55,118,171,.12);border-color:rgba(55,118,171,.3);color:#3776ab;">Python</span>
+              <span class="tech" style="background:rgba(176,114,25,.12);border-color:rgba(176,114,25,.3);color:#f89820;">Java</span>
+            </div>
+            <div class="detail-list">
+              <div class="dl-item"><div class="dl-title">Autenticación</div><div class="dl-desc">Verifica identidad del usuario y controla acceso por roles.</div></div>
+              <div class="dl-item"><div class="dl-title">Lógica de negocio</div><div class="dl-desc">Aplica reglas, cálculos y validaciones del sistema.</div></div>
+              <div class="dl-item"><div class="dl-title">API REST</div><div class="dl-desc">Expone endpoints que el frontend consume en formato JSON.</div></div>
+              <div class="dl-item"><div class="dl-title">Seguridad</div><div class="dl-desc">Previene inyección SQL, XSS y otros ataques.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BASE DE DATOS -->
+      <div class="comp-layer l3">
+        <div class="comp-layer-head">
+          <div class="comp-layer-label">
+            <div class="l-left">
+              <div class="l-num">Capa 03</div>
+              <div class="l-name" style="color:#ffa94d;">Base de datos</div>
+              <div class="l-sub">Capa de persistencia</div>
+            </div>
+            <div class="l-divider"></div>
+          </div>
+          <div class="comp-layer-body">
+            <p>Guarda toda la información del sistema de forma estructurada, segura y eficiente.</p>
+            <div class="tech-row">
+              <span class="tech" style="background:rgba(0,117,143,.12);border-color:rgba(0,117,143,.3);color:#00759f;">MySQL</span>
+              <span class="tech" style="background:rgba(51,103,145,.12);border-color:rgba(51,103,145,.3);color:#336791;">PostgreSQL</span>
+              <span class="tech" style="background:rgba(77,179,61,.12);border-color:rgba(77,179,61,.3);color:#4db33d;">MongoDB</span>
+            </div>
+            <div class="detail-list">
+              <div class="dl-item"><div class="dl-title">BD Relacionales (SQL)</div><div class="dl-desc">Datos en tablas con relaciones. Garantizan integridad y permiten consultas complejas.</div></div>
+              <div class="dl-item"><div class="dl-title">BD No relacionales (NoSQL)</div><div class="dl-desc">Datos en documentos o clave-valor. Ideales para alta escala.</div></div>
+              <div class="dl-item"><div class="dl-title">Modelo entidad-relación</div><div class="dl-desc">Diagrama que define tablas, columnas y relaciones del sistema.</div></div>
+              <div class="dl-item"><div class="dl-title">Backups</div><div class="dl-desc">Copias de seguridad programadas para proteger la información.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFRAESTRUCTURA -->
+      <div class="comp-layer l4">
+        <div class="comp-layer-head">
+          <div class="comp-layer-label">
+            <div class="l-left">
+              <div class="l-num">Capa 04</div>
+              <div class="l-name" style="color:#ff6b6b;">Infraestructura</div>
+              <div class="l-sub">Capa de despliegue</div>
+            </div>
+            <div class="l-divider"></div>
+          </div>
+          <div class="comp-layer-body">
+            <p>Todo lo necesario para que el sistema funcione en producción y sea accesible por los usuarios reales.</p>
+            <div class="tech-row">
+              <span class="tech" style="background:rgba(255,153,0,.12);border-color:rgba(255,153,0,.3);color:#ff9900;">AWS</span>
+              <span class="tech" style="background:rgba(0,120,215,.12);border-color:rgba(0,120,215,.3);color:#0078d4;">Azure</span>
+              <span class="tech" style="background:rgba(36,105,176,.12);border-color:rgba(36,105,176,.3);color:#2496ed;">Docker</span>
+            </div>
+            <div class="detail-list">
+              <div class="dl-item"><div class="dl-title">Servidor / Hosting</div><div class="dl-desc">Máquina física o virtual donde vive el sistema.</div></div>
+              <div class="dl-item"><div class="dl-title">Dominio y DNS</div><div class="dl-desc">Nombre que identifica el sistema en internet (ej: sistema.com).</div></div>
+              <div class="dl-item"><div class="dl-title">SSL / HTTPS</div><div class="dl-desc">Cifra la comunicación para proteger contraseñas y datos.</div></div>
+              <div class="dl-item"><div class="dl-title">Monitoreo</div><div class="dl-desc">Detecta caídas y errores antes de que el usuario los note.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTACIÓN -->
+      <div class="comp-layer l5">
+        <div class="comp-layer-head">
+          <div class="comp-layer-label">
+            <div class="l-left">
+              <div class="l-num">Capa 05</div>
+              <div class="l-name" style="color:#c084fc;">Documentación</div>
+              <div class="l-sub">Componente transversal</div>
+            </div>
+            <div class="l-divider"></div>
+          </div>
+          <div class="comp-layer-body">
+            <p>Acompaña todas las etapas del proyecto. Sin ella el mantenimiento y uso autónomo se vuelven imposibles.</p>
+            <div class="tech-row">
+              <span class="tech" style="background:rgba(192,132,252,.12);border-color:rgba(192,132,252,.3);color:#c084fc;">README.md</span>
+              <span class="tech" style="background:rgba(192,132,252,.12);border-color:rgba(192,132,252,.3);color:#c084fc;">Diagramas UML</span>
+              <span class="tech" style="background:rgba(192,132,252,.12);border-color:rgba(192,132,252,.3);color:#c084fc;">Manual de usuario</span>
+            </div>
+            <div class="detail-list">
+              <div class="dl-item"><div class="dl-title">Documentación técnica</div><div class="dl-desc">Arquitectura, modelo de datos y decisiones de diseño.</div></div>
+              <div class="dl-item"><div class="dl-title">Manual de usuario</div><div class="dl-desc">Guía para que el usuario use el sistema sin ayuda técnica.</div></div>
+              <div class="dl-item"><div class="dl-title">Manual de instalación</div><div class="dl-desc">Pasos para desplegar el sistema en un nuevo servidor.</div></div>
+              <div class="dl-item"><div class="dl-title">Comentarios en código</div><div class="dl-desc">Explican la lógica compleja dentro del código fuente.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIDEO -->
+    <div class="carac-group-title reveal" style="margin-top:0;">Video complementario</div>
+    <a href="https://youtu.be/i9M7gdzlA7I" target="_blank" rel="noopener" class="reveal" style="text-decoration:none; display:block; margin-bottom:56px;">
+      <div style="border-radius:20px; overflow:hidden; border:1px solid var(--border2); background:var(--card); transition:all .25s;" onmouseover="this.style.borderColor='rgba(255,169,77,.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border2)'; this.style.transform='translateY(0)'">
+        <div style="padding:24px 28px 16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-family:var(--font-head); font-size:18px; font-weight:700; margin-bottom:4px; color:var(--text);">Componentes de un proyecto de software</div>
+            <div style="font-size:13px; color:var(--muted);">Haz clic para ver en YouTube</div>
+          </div>
+          <div style="background:rgba(255,0,0,.15); border:1px solid rgba(255,0,0,.3); border-radius:10px; padding:7px 14px; font-size:12px; font-weight:700; color:#ff6b6b; white-space:nowrap; display:flex; align-items:center; gap:6px;">▶ Ver en YouTube</div>
+        </div>
+        <div style="position:relative;">
+          <img src="https://img.youtube.com/vi/i9M7gdzlA7I/maxresdefault.jpg" alt="Componentes de un proyecto de software" style="width:100%; display:block; max-height:380px; object-fit:cover;">
+          <div style="position:absolute; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center;">
+            <div style="width:72px; height:72px; background:rgba(255,0,0,.9); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(0,0,0,.5);">
+              <span style="font-size:28px; margin-left:5px; color:#fff;">▶</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ESTRUCTURA DE CARPETAS -->
+    <div class="folder-section-title reveal">Estructura de carpetas</div>
+    <div class="folder-section-sub reveal">Organización estándar del código fuente de un proyecto web</div>
+
+    <div class="folder-tree reveal">
+      <div class="tree-header">
+        <div class="tree-dots">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <div class="tree-title">mi-proyecto/</div>
+      </div>
+      <div class="tree-body">
+        <div><span class="ti">📄 </span><span class="tf html">index.html</span><span class="tree-desc">— Página principal / punto de entrada</span></div>
+        <div><span class="ti">📄 </span><span class="tf md">README.md</span><span class="tree-desc">— Documentación del proyecto</span></div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">css/</span><span class="tree-desc">— Hojas de estilo</span></div>
+        <div class="tree-indent">
+          <div><span class="ti">📄 </span><span class="tf css">style.css</span><span class="tree-desc">— Estilos generales</span></div>
+          <div><span class="ti">📄 </span><span class="tf css">componentes.css</span><span class="tree-desc">— Estilos por sección</span></div>
+          <div><span class="ti">📄 </span><span class="tf css">responsive.css</span><span class="tree-desc">— Adaptación a móviles</span></div>
+        </div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">js/</span><span class="tree-desc">— Scripts JavaScript</span></div>
+        <div class="tree-indent">
+          <div><span class="ti">📄 </span><span class="tf js">main.js</span><span class="tree-desc">— Lógica principal</span></div>
+          <div><span class="ti">📄 </span><span class="tf js">validaciones.js</span><span class="tree-desc">— Validación de formularios</span></div>
+        </div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">img/</span><span class="tree-desc">— Imágenes e íconos</span></div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">pages/</span><span class="tree-desc">— Páginas HTML del sistema</span></div>
+        <div class="tree-indent">
+          <div><span class="ti">📄 </span><span class="tf html">login.html</span></div>
+          <div><span class="ti">📄 </span><span class="tf html">dashboard.html</span></div>
+          <div><span class="ti">📄 </span><span class="tf html">reportes.html</span></div>
+        </div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">db/</span><span class="tree-desc">— Base de datos</span></div>
+        <div class="tree-indent">
+          <div><span class="ti">📄 </span><span class="tf sql">esquema.sql</span><span class="tree-desc">— Tablas y relaciones</span></div>
+          <div><span class="ti">📄 </span><span class="tf php">conexion.php</span><span class="tree-desc">— Configuración de conexión</span></div>
+        </div>
+        <br>
+        <div><span class="ti">📁 </span><span class="folder-name">fonts/</span><span class="tree-desc">— Tipografías</span></div>
+        <div><span class="ti">📄 </span><span class="tf md">docs/</span><span class="tree-desc">— Manuales y diagramas</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer><div class="wrapper"><p>Proyectos de Software · <strong>Características · Tipos · Componentes</strong></p></div></footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
