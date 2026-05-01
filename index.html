@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MensaTIC — Sistema de Mensajería Inteligente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIABLES Y RESET - Componente TIC: SOFTWARE (estilos)
+   ============================================================ */
+:root {
+  --negro: #0a0a0f;
+  --negro-card: #111118;
+  --negro-hover: #1a1a24;
+  --borde: rgba(255,255,255,0.08);
+  --borde-hover: rgba(255,255,255,0.15);
+  --texto: #e8e8f0;
+  --texto-muted: #7070a0;
+  --texto-dim: #404060;
+  --accent: #6c63ff;
+  --accent-hover: #8a83ff;
+  --accent-glow: rgba(108,99,255,0.25);
+  --verde: #00d68f;
+  --verde-bg: rgba(0,214,143,0.1);
+  --rojo: #ff4d6d;
+  --rojo-bg: rgba(255,77,109,0.1);
+  --naranja: #ff9f43;
+  --naranja-bg: rgba(255,159,67,0.1);
+  --azul: #48dbfb;
+  --azul-bg: rgba(72,219,251,0.1);
+  --amarillo: #ffd32a;
+  --amarillo-bg: rgba(255,211,42,0.1);
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --display: 'Syne', sans-serif;
+  --radio: 12px;
+  --radio-lg: 18px;
+  --sombra: 0 4px 24px rgba(0,0,0,0.4);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--negro);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  border-bottom: 1px solid var(--borde);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+.logo {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo span { color: var(--accent); }
+.puntaje-header {
+  display: flex; align-items: center; gap: 16px;
+}
+.badge-nivel {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+.badge-basico   { color: var(--azul); border-color: var(--azul); background: var(--azul-bg); }
+.badge-intermedio { color: var(--naranja); border-color: var(--naranja); background: var(--naranja-bg); }
+.badge-avanzado { color: var(--verde); border-color: var(--verde); background: var(--verde-bg); }
+.pts-display {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--amarillo);
+  font-weight: 500;
+}
+/* ============================================================
+   NAVEGACIÓN
+   ============================================================ */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 1.5rem 2rem 0;
+  border-bottom: 1px solid var(--borde);
+  overflow-x: auto;
+}
+.nav-tab {
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: var(--radio) var(--radio) 0 0;
+  background: transparent;
+  color: var(--texto-muted);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-tab:hover { color: var(--texto); background: var(--negro-hover); }
+.nav-tab.activo {
+  color: var(--texto);
+  background: var(--negro-card);
+  border-color: var(--borde);
+  border-bottom-color: var(--negro-card);
+  margin-bottom: -1px;
+}
+.tab-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+.nav-tab.activo .tab-dot { opacity: 1; }
+/* ============================================================
+   CONTENIDO PRINCIPAL
+   ============================================================ */
+.main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+.seccion { display: none; }
+.seccion.activa { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* ============================================================
+   DASHBOARD / MÉTRICAS
+   ============================================================ */
+.grid-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.metrica-card {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 1.25rem;
+  transition: all 0.2s;
+}
+.metrica-card:hover { border-color: var(--borde-hover); transform: translateY(-2px); }
+.metrica-label {
+  font-size: 12px;
+  color: var(--texto-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+}
+.metrica-valor {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.metrica-sub { font-size: 12px; color: var(--texto-muted); margin-top: 6px; }
+/* ============================================================
+   FLUJO TIC VISUAL
+   ============================================================ */
+.flujo-tic {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.flujo-titulo {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.flujo-titulo::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulso 2s infinite; }
+@keyframes pulso { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+.flujo-pasos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--borde);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.flujo-paso {
+  background: var(--negro);
+  padding: 1rem;
+  transition: all 0.4s;
+}
+.flujo-paso.activo { background: rgba(108,99,255,0.12); }
+.flujo-paso.completado { background: rgba(0,214,143,0.08); }
+.paso-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--texto-dim);
+  margin-bottom: 4px;
+}
+.paso-nombre {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.paso-desc { font-size: 12px; color: var(--texto-muted); line-height: 1.4; }
+.paso-check { color: var(--verde); font-size: 16px; }
+.flujo-paso.activo .paso-nombre { color: var(--accent); }
+.flujo-paso.completado .paso-nombre { color: var(--verde); }
+/* ============================================================
+   FORMULARIOS
+   ============================================================ */
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.campo-form { display: flex; flex-direction: column; gap: 6px; }
+.campo-form.completo { grid-column: 1 / -1; }
+.campo-form label {
+  font-size: 12px;
+  color: var(--texto-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-family: var(--mono);
+}
+.campo-form input,
+.campo-form select,
+.campo-form textarea {
+  background: var(--negro);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: border-color 0.2s;
+  outline: none;
+  resize: vertical;
+}
+.campo-form input:focus,
+.campo-form select:focus,
+.campo-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.campo-form select option { background: #1a1a24; }
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radio);
+  border: 1px solid;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+.btn-ghost {
+  background: transparent;
+  border-color: var(--borde);
+  color: var(--texto);
+}
+.btn-ghost:hover { border-color: var(--borde-hover); background: var(--negro-hover); }
+.btn-peligro {
+  background: transparent;
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+.btn-peligro:hover { background: var(--rojo-bg); }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+/* ============================================================
+   TABLA DE PAQUETES
+   ============================================================ */
+.tabla-wrapper {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  overflow: hidden;
+}
+.tabla-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--borde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.tabla-busqueda {
+  display: flex; gap: 8px; align-items: center;
+}
+.tabla-busqueda input {
+  background: var(--negro);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+  width: 220px;
+}
+.tabla-busqueda input:focus { border-color: var(--accent); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--texto-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: var(--mono);
+  border-bottom: 1px solid var(--borde);
+  background: rgba(255,255,255,0.02);
+}
+tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.2s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--negro-hover); }
+tbody td { padding: 14px 16px; font-size: 14px; }
+.codigo-mono {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+}
+/* ============================================================
+   BADGES DE ESTADO
+   ============================================================ */
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.estado-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.estado-enviado    { color: var(--azul);    background: var(--azul-bg); }
+.estado-en_proceso { color: var(--amarillo); background: var(--amarillo-bg); }
+.estado-en_ruta    { color: var(--naranja);  background: var(--naranja-bg); }
+.estado-entregado  { color: var(--verde);   background: var(--verde-bg); }
+.prioridad-normal   { color: var(--texto-muted); font-size: 12px; font-family: var(--mono); }
+.prioridad-urgente  { color: var(--naranja); font-size: 12px; font-family: var(--mono); font-weight: 600; }
+.prioridad-express  { color: var(--rojo); font-size: 12px; font-family: var(--mono); font-weight: 600; }
+/* ============================================================
+   RASTREADOR
+   ============================================================ */
+.rastreo-input-group {
+  display: flex; gap: 12px; margin-bottom: 2rem; align-items: stretch;
+}
+.rastreo-input-group input {
+  flex: 1;
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto);
+  font-family: var(--mono);
+  font-size: 15px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.rastreo-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.timeline-item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -16px;
+  width: 1px;
+  background: var(--borde);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--borde);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  z-index: 1;
+  background: var(--negro-card);
+}
+.timeline-content {
+  padding-bottom: 24px;
+  flex: 1;
+}
+.timeline-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.timeline-desc { font-size: 13px; color: var(--texto-muted); margin-bottom: 4px; }
+.timeline-fecha { font-family: var(--mono); font-size: 11px; color: var(--texto-dim); }
+.timeline-tic-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+/* ============================================================
+   DESAFÍO TIC
+   ============================================================ */
+.desafio-container {
+  max-width: 720px;
+}
+.pregunta-card {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.pregunta-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.5rem;
+}
+.pregunta-categoria {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.cat-hardware { color: var(--naranja); background: var(--naranja-bg); border: 1px solid rgba(255,159,67,0.3); }
+.cat-software { color: var(--accent); background: var(--accent-glow); border: 1px solid rgba(108,99,255,0.3); }
+.cat-red      { color: var(--azul);    background: var(--azul-bg); border: 1px solid rgba(72,219,251,0.3); }
+.cat-usuario  { color: var(--verde);  background: var(--verde-bg); border: 1px solid rgba(0,214,143,0.3); }
+.cat-general  { color: var(--texto-muted); background: rgba(255,255,255,0.04); border: 1px solid var(--borde); }
+.pregunta-pts {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--amarillo);
+}
+.pregunta-texto {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.opciones-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.opcion-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--negro);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+  line-height: 1.5;
+}
+.opcion-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(108,99,255,0.06); }
+.opcion-btn:disabled { cursor: not-allowed; }
+.opcion-btn.correcta { border-color: var(--verde); background: var(--verde-bg); color: var(--verde); }
+.opcion-btn.incorrecta { border-color: var(--rojo); background: var(--rojo-bg); color: var(--rojo); }
+.letra-opcion {
+  min-width: 26px; height: 26px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.feedback-card {
+  border-radius: var(--radio);
+  padding: 1.25rem;
+  margin-top: 1rem;
+  font-size: 14px;
+  line-height: 1.6;
+  display: none;
+}
+.feedback-card.correcto { background: var(--verde-bg); border: 1px solid rgba(0,214,143,0.3); color: var(--verde); }
+.feedback-card.incorrecto { background: var(--rojo-bg); border: 1px solid rgba(255,77,109,0.3); color: var(--rojo); }
+.feedback-explicacion { color: var(--texto); margin-top: 8px; font-style: italic; }
+/* ============================================================
+   PROGRESO DE PUNTAJE
+   ============================================================ */
+.progreso-barra {
+  height: 6px;
+  background: var(--negro-hover);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progreso-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--accent), var(--azul));
+}
+/* ============================================================
+   ERROR SIMULATOR
+   ============================================================ */
+.terminal {
+  background: #0d1117;
+  border: 1px solid rgba(0,200,100,0.3);
+  border-radius: var(--radio);
+  padding: 1.5rem;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 1rem 0;
+}
+.terminal-prompt { color: #00c864; }
+.terminal-error  { color: #ff4d6d; }
+.terminal-warn   { color: #ffd32a; }
+.terminal-info   { color: #48dbfb; }
+.terminal-muted  { color: #555; }
+/* ============================================================
+   ESCENARIOS - Toma de decisiones
+   ============================================================ */
+.escenario-card {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.escenario-situacion {
+  background: rgba(255,159,67,0.08);
+  border-left: 3px solid var(--naranja);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radio) var(--radio) 0;
+  margin-bottom: 1.25rem;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.decisiones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.decision-btn {
+  padding: 1rem;
+  background: var(--negro);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  line-height: 1.4;
+}
+.decision-btn:hover { border-color: var(--accent); background: var(--accent-glow); }
+.decision-btn.correcto { border-color: var(--verde); background: var(--verde-bg); color: var(--verde); }
+.decision-btn.incorrecto { border-color: var(--rojo); background: var(--rojo-bg); color: var(--rojo); }
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 2rem;
+}
+.modal-overlay.visible { display: flex; }
+.modal {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 2rem;
+  max-width: 560px;
+  width: 100%;
+  animation: fadeIn 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.modal-titulo { font-family: var(--display); font-size: 20px; font-weight: 700; }
+.modal-cerrar {
+  background: none; border: none;
+  color: var(--texto-muted); font-size: 20px;
+  cursor: pointer; line-height: 1;
+  padding: 4px;
+}
+.modal-cerrar:hover { color: var(--texto); }
+/* ============================================================
+   TOOLTIPS COMPONENTES TIC
+   ============================================================ */
+.tic-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 1.5rem 0;
+}
+.tic-componente {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1rem;
+  transition: all 0.2s;
+}
+.tic-componente:hover { border-color: var(--borde-hover); }
+.tic-comp-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.tic-icono {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.tic-comp-nombre { font-weight: 600; font-size: 14px; }
+.tic-comp-desc { font-size: 12px; color: var(--texto-muted); line-height: 1.5; }
+/* ============================================================
+   NOTIFICACIONES TOAST
+   ============================================================ */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  background: var(--negro-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 12px 16px;
+  font-size: 13px;
+  min-width: 260px;
+  max-width: 360px;
+  animation: slideIn 0.3s ease;
+  border-left: 3px solid var(--accent);
+}
+.toast.success { border-left-color: var(--verde); }
+.toast.error   { border-left-color: var(--rojo); }
+.toast.warning { border-left-color: var(--naranja); }
+@keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOut { from { opacity: 1; } to { opacity: 0; transform: translateX(20px); } }
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-8 { gap: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.texto-muted { color: var(--texto-muted); }
+.texto-acento { color: var(--accent); }
+.texto-verde  { color: var(--verde); }
+.texto-rojo   { color: var(--rojo); }
+.titulo-seccion {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.subtitulo-seccion {
+  font-size: 14px;
+  color: var(--texto-muted);
+  margin-bottom: 2rem;
+}
+.row { display: flex; gap: 1.5rem; }
+.col-principal { flex: 1; }
+.col-lateral { width: 320px; flex-shrink: 0; }
+.separador { height: 1px; background: var(--borde); margin: 1.5rem 0; }
+.loading-dots::after {
+  content: '...';
+  animation: dots 1s steps(3, end) infinite;
+}
+@keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--texto-muted);
+}
+.empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+.empty-state p { font-size: 14px; }
+@media (max-width: 900px) {
+  .row { flex-direction: column; }
+  .col-lateral { width: 100%; }
+  .grid-form { grid-template-columns: 1fr; }
+  .flujo-pasos { grid-template-columns: repeat(2, 1fr); }
+  .decisiones-grid { grid-template-columns: 1fr; }
+  .main { padding: 1rem; }
+  .nav-tabs { padding: 1rem 1rem 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">📦</div>
+    Mensa<span>TIC</span>
+  </div>
+  <div class="puntaje-header">
+    <span class="pts-display" id="pts-header">0 pts</span>
+    <span class="badge-nivel badge-basico" id="nivel-badge">Básico</span>
+  </div>
+</header>
+
+<!-- ============================================================
+     NAVEGACIÓN
+     ============================================================ -->
+<nav class="nav-tabs" role="tablist">
+  <button class="nav-tab activo" onclick="irA('dashboard')">
+    <span class="tab-dot"></span> Dashboard
+  </button>
+  <button class="nav-tab" onclick="irA('paquetes')">
+    <span class="tab-dot"></span> Paquetes
+  </button>
+  <button class="nav-tab" onclick="irA('registrar')">
+    <span class="tab-dot"></span> Nuevo Paquete
+  </button>
+  <button class="nav-tab" onclick="irA('rastrear')">
+    <span class="tab-dot"></span> Rastrear
+  </button>
+  <button class="nav-tab" onclick="irA('desafio')">
+    <span class="tab-dot"></span> Desafío TIC
+  </button>
+  <button class="nav-tab" onclick="irA('errores')">
+    <span class="tab-dot"></span> Errores TIC
+  </button>
+  <button class="nav-tab" onclick="irA('decisiones')">
+    <span class="tab-dot"></span> Decisiones Pro
+  </button>
+</nav>
+
+<main class="main">
+
+  <!-- ==========================================================
+       1. DASHBOARD
+       ========================================================== -->
+  <section id="sec-dashboard" class="seccion activa">
+    <h1 class="titulo-seccion">Centro de Control</h1>
+    <p class="subtitulo-seccion">Visión general del sistema de mensajería — Componentes TIC activos en tiempo real</p>
+
+    <div class="grid-metricas" id="metricas-container">
+      <div class="metrica-card">
+        <div class="metrica-label">Total Paquetes</div>
+        <div class="metrica-valor texto-acento" id="m-total">—</div>
+        <div class="metrica-sub">registrados en sistema</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-label">En Tránsito</div>
+        <div class="metrica-valor" style="color:var(--naranja)" id="m-ruta">—</div>
+        <div class="metrica-sub">en ruta actualmente</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-label">Entregados</div>
+        <div class="metrica-valor texto-verde" id="m-entregados">—</div>
+        <div class="metrica-sub">completados con éxito</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-label">Pendientes</div>
+        <div class="metrica-valor" style="color:var(--azul)" id="m-pendientes">—</div>
+        <div class="metrica-sub">enviados y en proceso</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-label">Tus Puntos</div>
+        <div class="metrica-valor" style="color:var(--amarillo)" id="m-puntos">0</div>
+        <div class="metrica-sub">nivel: <span id="m-nivel">básico</span></div>
+      </div>
+    </div>
+
+    <!-- Flujo TIC explicativo -->
+    <div class="flujo-tic" id="flujo-dashboard">
+      <div class="flujo-titulo">Flujo TIC — Ciclo de vida de un paquete</div>
+      <div class="flujo-pasos">
+        <div class="flujo-paso completado" id="flujo-crear">
+          <div class="paso-num">01 / CREAR</div>
+          <div class="paso-nombre"><span class="paso-check">✓</span> Registro</div>
+          <div class="paso-desc">USUARIO ingresa datos. SOFTWARE valida y asigna código único</div>
+        </div>
+        <div class="flujo-paso completado" id="flujo-guardar">
+          <div class="paso-num">02 / GUARDAR</div>
+          <div class="paso-nombre"><span class="paso-check">✓</span> Base de Datos</div>
+          <div class="paso-desc">SOFTWARE (MySQL) inserta registro. HARDWARE almacena en disco</div>
+        </div>
+        <div class="flujo-paso completado" id="flujo-procesar">
+          <div class="paso-num">03 / PROCESAR</div>
+          <div class="paso-nombre"><span class="paso-check">✓</span> Logística</div>
+          <div class="paso-desc">HARDWARE (escáner) cambia estado. RED sincroniza posición GPS</div>
+        </div>
+        <div class="flujo-paso completado" id="flujo-compartir">
+          <div class="paso-num">04 / COMPARTIR</div>
+          <div class="paso-nombre"><span class="paso-check">✓</span> Entrega</div>
+          <div class="paso-desc">USUARIO confirma recepción. RED notifica al sistema central</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Componentes TIC -->
+    <h2 style="font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:1rem;">Componentes TIC del Sistema</h2>
+    <div class="tic-info">
+      <div class="tic-componente">
+        <div class="tic-comp-header">
+          <div class="tic-icono" style="background:var(--naranja-bg);">🖥️</div>
+          <div class="tic-comp-nombre" style="color:var(--naranja)">Hardware</div>
+        </div>
+        <div class="tic-comp-desc">Servidores físicos, básculas digitales, escáneres de código de barras, dispositivos GPS en camiones, computadores de los empleados, impresoras de guías.</div>
+      </div>
+      <div class="tic-componente">
+        <div class="tic-comp-header">
+          <div class="tic-icono" style="background:var(--accent-glow);">⚙️</div>
+          <div class="tic-comp-nombre" style="color:var(--accent)">Software</div>
+        </div>
+        <div class="tic-comp-desc">Este sistema web (PHP), base de datos MySQL, algoritmos de enrutamiento, sistema operativo del servidor, aplicación móvil de repartidores, sistema de facturación.</div>
+      </div>
+      <div class="tic-componente">
+        <div class="tic-comp-header">
+          <div class="tic-icono" style="background:var(--azul-bg);">🌐</div>
+          <div class="tic-comp-nombre" style="color:var(--azul)">Redes</div>
+        </div>
+        <div class="tic-comp-desc">Internet para acceso remoto, GPS satelital para rastreo, Wi-Fi en bodegas, red 4G/5G para dispositivos móviles, protocolo HTTPS para seguridad de datos.</div>
+      </div>
+      <div class="tic-componente">
+        <div class="tic-comp-header">
+          <div class="tic-icono" style="background:var(--verde-bg);">👤</div>
+          <div class="tic-comp-nombre" style="color:var(--verde)">Usuario</div>
+        </div>
+        <div class="tic-comp-desc">Clientes que envían/reciben, empleados que operan el sistema, administradores que configuran la red, repartidores que actualizan estados desde móvil.</div>
+      </div>
+    </div>
+
+    <!-- Paquetes recientes -->
+    <h2 style="font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:1rem;margin-top:2rem;">Últimos Paquetes Registrados</h2>
+    <div class="tabla-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="dashboard-tabla">
+          <tr><td colspan="5"><div class="empty-state"><div class="loading-dots">Cargando</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       2. LISTA DE PAQUETES
+       ========================================================== -->
+  <section id="sec-paquetes" class="seccion">
+    <h1 class="titulo-seccion">Gestión de Paquetes</h1>
+    <p class="subtitulo-seccion">CRUD completo — Crear, Leer, Actualizar y Eliminar registros</p>
+
+    <div class="tabla-wrapper">
+      <div class="tabla-header">
+        <div class="tabla-busqueda">
+          <input type="text" id="filtro-buscar" placeholder="🔍  Buscar por código, remitente..." oninput="filtrarTabla()">
+          <select id="filtro-estado" onchange="filtrarTabla()" style="background:var(--negro);border:1px solid var(--borde);border-radius:var(--radio);color:var(--texto);padding:8px 12px;font-size:13px;outline:none;cursor:pointer;">
+            <option value="">Todos los estados</option>
+            <option value="enviado">Enviado</option>
+            <option value="en_proceso">En proceso</option>
+            <option value="en_ruta">En ruta</option>
+            <option value="entregado">Entregado</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="irA('registrar')">+ Nuevo Paquete</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Peso</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-paquetes">
+          <tr><td colspan="8"><div class="empty-state"><p class="loading-dots">Cargando paquetes</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       3. REGISTRAR PAQUETE
+       ========================================================== -->
+  <section id="sec-registrar" class="seccion">
+    <div class="row">
+      <div class="col-principal">
+        <h1 class="titulo-seccion">Registrar Nuevo Paquete</h1>
+        <p class="subtitulo-seccion">Flujo TIC: Usuario → Software → Base de Datos → Red → Confirmación</p>
+
+        <!-- Flujo TIC animado -->
+        <div class="flujo-tic" id="flujo-registro">
+          <div class="flujo-titulo">Estado del flujo TIC</div>
+          <div class="flujo-pasos">
+            <div class="flujo-paso activo" id="r-crear">
+              <div class="paso-num">01 / CREAR</div>
+              <div class="paso-nombre">Entrada USUARIO</div>
+              <div class="paso-desc">Completando formulario en interfaz web</div>
+            </div>
+            <div class="flujo-paso" id="r-guardar">
+              <div class="paso-num">02 / GUARDAR</div>
+              <div class="paso-nombre">Base de Datos</div>
+              <div class="paso-desc">MySQL recibirá INSERT INTO paquetes</div>
+            </div>
+            <div class="flujo-paso" id="r-procesar">
+              <div class="paso-num">03 / PROCESAR</div>
+              <div class="paso-nombre">Lógica Software</div>
+              <div class="paso-desc">Sistema asignará código único y estado</div>
+            </div>
+            <div class="flujo-paso" id="r-compartir">
+              <div class="paso-num">04 / COMPARTIR</div>
+              <div class="paso-nombre">Respuesta Red</div>
+              <div class="paso-desc">JSON vía AJAX confirmará el registro</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-form">
+          <div class="campo-form">
+            <label for="remitente">Remitente *</label>
+            <input type="text" id="remitente" placeholder="Nombre completo o empresa">
+          </div>
+          <div class="campo-form">
+            <label for="destinatario">Destinatario *</label>
+            <input type="text" id="destinatario" placeholder="Nombre completo o empresa">
+          </div>
+          <div class="campo-form completo">
+            <label for="direccion">Dirección de Entrega *</label>
+            <input type="text" id="direccion" placeholder="Calle, número, ciudad, departamento">
+          </div>
+          <div class="campo-form">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" min="0.1" max="500" step="0.1" value="1.0" placeholder="1.0">
+          </div>
+          <div class="campo-form">
+            <label for="prioridad">Prioridad</label>
+            <select id="prioridad">
+              <option value="normal">Normal</option>
+              <option value="urgente">Urgente</option>
+              <option value="express">Express</option>
+            </select>
+          </div>
+          <div class="campo-form completo">
+            <label for="descripcion">Descripción del contenido</label>
+            <textarea id="descripcion" rows="2" placeholder="¿Qué contiene el paquete?"></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-primary" id="btn-registrar" onclick="registrarPaquete()">
+            📦 Registrar Paquete
+          </button>
+          <button class="btn btn-ghost" onclick="limpiarFormulario()">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="col-lateral">
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;margin-bottom:1rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Código generado</div>
+          <div id="codigo-generado" style="font-family:var(--mono);font-size:20px;font-weight:600;color:var(--texto-muted);letter-spacing:2px;">PKT-????-??????</div>
+          <div style="font-size:12px;color:var(--texto-dim);margin-top:8px;">Se generará automáticamente al registrar</div>
+        </div>
+
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Componente activo</div>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="tic-activo">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);">
+              <span style="font-size:16px;">👤</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--accent)">Usuario activo</div>
+                <div style="font-size:11px;color:var(--texto-muted)">Ingresando datos al sistema</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:rgba(0,0,0,0.2);opacity:0.4" id="tic-sw">
+              <span style="font-size:16px;">⚙️</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;">Software en espera</div>
+                <div style="font-size:11px;color:var(--texto-muted)">Validación pendiente</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:rgba(0,0,0,0.2);opacity:0.4" id="tic-hw">
+              <span style="font-size:16px;">🖥️</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;">Hardware en espera</div>
+                <div style="font-size:11px;color:var(--texto-muted)">Almacenamiento pendiente</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:rgba(0,0,0,0.2);opacity:0.4" id="tic-net">
+              <span style="font-size:16px;">🌐</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;">Red en espera</div>
+                <div style="font-size:11px;color:var(--texto-muted)">Transmisión pendiente</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       4. RASTREAR
+       ========================================================== -->
+  <section id="sec-rastrear" class="seccion">
+    <h1 class="titulo-seccion">Sistema de Rastreo</h1>
+    <p class="subtitulo-seccion">Búsqueda en tiempo real — Componente TIC: RED + SOFTWARE actuando juntos</p>
+
+    <div class="rastreo-input-group">
+      <input type="text" id="input-codigo" placeholder="PKT-2024-XXXXXX" oninput="this.value = this.value.toUpperCase()" onkeypress="if(event.key==='Enter') rastrearPaquete()">
+      <button class="btn btn-primary" onclick="rastrearPaquete()">
+        🔍 Rastrear
+      </button>
+    </div>
+
+    <!-- Códigos de ejemplo -->
+    <div style="margin-bottom:2rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:12px;color:var(--texto-muted);font-family:var(--mono)">Ejemplos:</span>
+      <button class="btn btn-ghost btn-sm" onclick="rastrearCodigo('PKT-2024-001')">PKT-2024-001</button>
+      <button class="btn btn-ghost btn-sm" onclick="rastrearCodigo('PKT-2024-002')">PKT-2024-002</button>
+      <button class="btn btn-ghost btn-sm" onclick="rastrearCodigo('PKT-2024-003')">PKT-2024-003</button>
+      <button class="btn btn-ghost btn-sm" onclick="rastrearCodigo('PKT-2024-004')">PKT-2024-004</button>
+      <button class="btn btn-ghost btn-sm" style="color:var(--rojo)" onclick="rastrearCodigo('PKT-0000-INVALIDO')">Error 404 (simulado)</button>
+    </div>
+
+    <div id="resultado-rastreo"></div>
+  </section>
+
+  <!-- ==========================================================
+       5. DESAFÍO TIC
+       ========================================================== -->
+  <section id="sec-desafio" class="seccion">
+    <div class="row">
+      <div class="col-principal desafio-container">
+        <h1 class="titulo-seccion">Modo Desafío TIC</h1>
+        <p class="subtitulo-seccion">Responde correctamente para acumular puntos y avanzar de nivel</p>
+
+        <div id="pregunta-actual">
+          <div class="empty-state">
+            <div class="empty-icon">🎯</div>
+            <p>Haz clic en "Nueva Pregunta" para comenzar el desafío</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="nuevaPregunta()">🎲 Nueva Pregunta</button>
+          <button class="btn btn-ghost" onclick="irA('errores')">🔴 Modo Errores TIC</button>
+        </div>
+      </div>
+
+      <div class="col-lateral">
+        <!-- Marcador -->
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;margin-bottom:1rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:1.25rem;">Tu progreso</div>
+
+          <div style="font-family:var(--display);font-size:3rem;font-weight:800;color:var(--amarillo);line-height:1;" id="pts-big">0</div>
+          <div style="font-size:13px;color:var(--texto-muted);margin-bottom:1.25rem;">puntos acumulados</div>
+
+          <div style="margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--texto-muted);margin-bottom:6px;">
+              <span id="progreso-nivel-label">Básico</span>
+              <span id="progreso-pts-label">0 / 60 pts</span>
+            </div>
+            <div class="progreso-barra">
+              <div class="progreso-fill" id="progreso-fill" style="width:0%"></div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1.25rem;">
+            <div style="text-align:center;padding:12px;background:var(--verde-bg);border-radius:var(--radio);border:1px solid rgba(0,214,143,0.2);">
+              <div style="font-family:var(--display);font-size:1.5rem;font-weight:700;color:var(--verde);" id="pts-correctas">0</div>
+              <div style="font-size:11px;color:var(--verde);font-family:var(--mono);">CORRECTAS</div>
+            </div>
+            <div style="text-align:center;padding:12px;background:var(--rojo-bg);border-radius:var(--radio);border:1px solid rgba(255,77,109,0.2);">
+              <div style="font-family:var(--display);font-size:1.5rem;font-weight:700;color:var(--rojo);" id="pts-incorrectas">0</div>
+              <div style="font-size:11px;color:var(--rojo);font-family:var(--mono);">INCORRECTAS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Niveles -->
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Niveles de aprendizaje</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="nivel-row" id="row-basico" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:var(--azul-bg);border:1px solid rgba(72,219,251,0.3);">
+              <span style="font-size:18px;">🟦</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--azul)">Básico</div>
+                <div style="font-size:11px;color:var(--texto-muted)">0 — 59 pts</div>
+              </div>
+              <span style="font-family:var(--mono);font-size:11px;color:var(--azul)">+10 pts/resp</span>
+            </div>
+            <div class="nivel-row" id="row-intermedio" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;opacity:0.5;">
+              <span style="font-size:18px;">🟧</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--naranja)">Intermedio</div>
+                <div style="font-size:11px;color:var(--texto-muted)">60 — 149 pts</div>
+              </div>
+              <span style="font-family:var(--mono);font-size:11px;color:var(--naranja)">+20 pts/resp</span>
+            </div>
+            <div class="nivel-row" id="row-avanzado" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;opacity:0.5;">
+              <span style="font-size:18px;">🟩</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--verde)">Avanzado</div>
+                <div style="font-size:11px;color:var(--texto-muted)">150+ pts</div>
+              </div>
+              <span style="font-family:var(--mono);font-size:11px;color:var(--verde)">+30 pts/resp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       6. ERRORES TIC
+       ========================================================== -->
+  <section id="sec-errores" class="seccion">
+    <h1 class="titulo-seccion">Simulación de Errores TIC</h1>
+    <p class="subtitulo-seccion">Aprende a diagnosticar fallos en sistemas reales — ¿Qué componente TIC falló?</p>
+
+    <div class="row">
+      <div class="col-principal">
+        <div style="display:flex;gap:12px;margin-bottom:1.5rem;">
+          <button class="btn btn-primary" onclick="simularError()">⚠️ Simular Error Aleatorio</button>
+          <button class="btn btn-ghost" id="btn-diagnosticar" onclick="mostrarDiagnostico()" style="display:none">🔍 Diagnosticar</button>
+        </div>
+
+        <div class="terminal" id="terminal-errores">
+          <div class="terminal-muted">$ sistema-mensajeria --start</div>
+          <div class="terminal-prompt">Sistema MensaTIC v2.0 iniciado correctamente.</div>
+          <div class="terminal-prompt">Componentes TIC activos: Hardware ✓ | Software ✓ | Red ✓ | Usuario ✓</div>
+          <div class="terminal-muted">Esperando eventos del sistema...</div>
+          <div class="terminal-muted" id="cursor-terminal">_</div>
+        </div>
+
+        <div id="panel-diagnostico" style="display:none;margin-top:1.5rem;">
+          <h3 style="font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:1rem;">¿Qué componente TIC falló?</h3>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;" id="opciones-diagnostico">
+            <button class="decision-btn" onclick="diagnosticar('hardware')">🖥️ Hardware<br><small>Dispositivos físicos</small></button>
+            <button class="decision-btn" onclick="diagnosticar('software')">⚙️ Software<br><small>Lógica y programas</small></button>
+            <button class="decision-btn" onclick="diagnosticar('red')">🌐 Red<br><small>Comunicaciones</small></button>
+            <button class="decision-btn" onclick="diagnosticar('usuario')">👤 Usuario<br><small>Factor humano</small></button>
+          </div>
+        </div>
+
+        <div id="resultado-diagnostico" style="display:none;margin-top:1.5rem;"></div>
+      </div>
+
+      <div class="col-lateral">
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Tipos de Error TIC</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="padding:10px 12px;border-radius:8px;background:var(--naranja-bg);border:1px solid rgba(255,159,67,0.3);">
+              <div style="font-weight:600;color:var(--naranja);font-size:13px;margin-bottom:4px;">🖥️ Error de Hardware</div>
+              <div style="font-size:12px;color:var(--texto-muted);">Disco lleno, memoria RAM agotada, dispositivo dañado, sensor defectuoso</div>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;background:var(--accent-glow);border:1px solid rgba(108,99,255,0.3);">
+              <div style="font-weight:600;color:var(--accent);font-size:13px;margin-bottom:4px;">⚙️ Error de Software</div>
+              <div style="font-size:12px;color:var(--texto-muted);">Bug en código, clave duplicada en BD, validación fallida, lógica incorrecta</div>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;background:var(--azul-bg);border:1px solid rgba(72,219,251,0.3);">
+              <div style="font-weight:600;color:var(--azul);font-size:13px;margin-bottom:4px;">🌐 Error de Red</div>
+              <div style="font-size:12px;color:var(--texto-muted);">Timeout, conexión rechazada, DNS fallido, latencia alta, paquetes perdidos</div>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;background:var(--verde-bg);border:1px solid rgba(0,214,143,0.3);">
+              <div style="font-weight:600;color:var(--verde);font-size:13px;margin-bottom:4px;">👤 Error de Usuario</div>
+              <div style="font-size:12px;color:var(--texto-muted);">Dato mal ingresado, campo vacío, formato incorrecto, acción no autorizada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       7. DECISIONES PRO
+       ========================================================== -->
+  <section id="sec-decisiones" class="seccion">
+    <h1 class="titulo-seccion">Toma de Decisiones — Nivel Pro</h1>
+    <p class="subtitulo-seccion">Escenarios reales de una empresa de mensajería — ¿Qué solución TIC aplicarías?</p>
+    <div id="escenarios-container"></div>
+    <button class="btn btn-primary" onclick="cargarEscenario()">🎲 Nuevo Escenario</button>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     MODAL EDITAR PAQUETE
+     ============================================================ -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo">Actualizar Estado del Paquete</div>
+      <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <div style="font-family:var(--mono);font-size:13px;color:var(--accent);margin-bottom:4px;" id="modal-codigo-label">PKT-????</div>
+      <div style="font-size:13px;color:var(--texto-muted);" id="modal-detalle-label"></div>
+    </div>
+    <div class="campo-form mb-24">
+      <label>Nuevo Estado</label>
+      <select id="modal-estado">
+        <option value="enviado">📨 Enviado</option>
+        <option value="en_proceso">⚙️ En Proceso</option>
+        <option value="en_ruta">🚚 En Ruta</option>
+        <option value="entregado">✅ Entregado</option>
+      </select>
+    </div>
+    <div class="campo-form mb-24">
+      <label>Observaciones (opcional)</label>
+      <textarea id="modal-obs" rows="2" placeholder="Notas sobre el cambio de estado..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-primary" onclick="actualizarEstado()">Guardar Cambios</button>
+      <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL DESAFÍO POST-ACCIÓN
+     ============================================================ -->
+<div class="modal-overlay" id="modal-desafio">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo">🎯 ¡Desafío TIC!</div>
+      <button class="modal-cerrar" onclick="cerrarModalDesafio()">✕</button>
+    </div>
+    <div style="font-size:13px;color:var(--texto-muted);margin-bottom:1.5rem;">Completaste una acción. ¿Puedes responder esta pregunta?</div>
+    <div id="modal-desafio-contenido"></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ================================================================
+// BASE DE DATOS LOCAL — Simula MySQL con localStorage
+// Componente TIC: SOFTWARE (lógica de datos en cliente)
+// ================================================================
+
+// Inicializar "base de datos" local
+let DB = {
+  paquetes: [],
+  historial: [],
+  puntaje: { puntos: 0, nivel: 'basico', correctas: 0, incorrectas: 0 },
+  counter: 10
+};
+
+// Cargar datos existentes o inicializar con datos de ejemplo
+function inicializarDB() {
+  const guardado = localStorage.getItem('mensatic_db');
+  if (guardado) {
+    DB = JSON.parse(guardado);
+  } else {
+    // Datos iniciales de ejemplo
+    DB.paquetes = [
+      {
+        id: 1, codigo: 'PKT-2024-001',
+        remitente: 'María García', destinatario: 'Carlos Rodríguez',
+        direccion: 'Calle 45 #12-30, Bogotá', peso_kg: 1.5,
+        descripcion: 'Documentos legales', estado: 'en_ruta', prioridad: 'urgente',
+        fecha_registro: '2024-11-15T09:30:00', ip_registro: '192.168.1.10'
+      },
+      {
+        id: 2, codigo: 'PKT-2024-002',
+        remitente: 'Empresa ABC Ltda', destinatario: 'Pedro Martínez',
+        direccion: 'Av. 68 #23-15, Medellín', peso_kg: 3.2,
+        descripcion: 'Equipos electrónicos', estado: 'en_proceso', prioridad: 'express',
+        fecha_registro: '2024-11-15T10:15:00', ip_registro: '192.168.1.25'
+      },
+      {
+        id: 3, codigo: 'PKT-2024-003',
+        remitente: 'Laura Jiménez', destinatario: 'Ana Sofía Torres',
+        direccion: 'Cra 15 #80-45, Cali', peso_kg: 0.8,
+        descripcion: 'Ropa y accesorios', estado: 'enviado', prioridad: 'normal',
+        fecha_registro: '2024-11-15T11:00:00', ip_registro: '192.168.1.42'
+      },
+      {
+        id: 4, codigo: 'PKT-2024-004',
+        remitente: 'Tech Solutions SAS', destinatario: 'Universidad Nacional',
+        direccion: 'Ciudad Universitaria, Bogotá', peso_kg: 5.0,
+        descripcion: 'Material didáctico TIC', estado: 'entregado', prioridad: 'normal',
+        fecha_registro: '2024-11-14T14:00:00', ip_registro: '192.168.1.5'
+      }
+    ];
+    DB.historial = [
+      { id:1, paquete_id:1, estado_anterior:null, estado_nuevo:'enviado', descripcion:'Paquete registrado - SOFTWARE procesó la solicitud', componente_tic:'software', fecha_cambio:'2024-11-15T09:30:00' },
+      { id:2, paquete_id:1, estado_anterior:'enviado', estado_nuevo:'en_proceso', descripcion:'Centro de distribución recibió el paquete - HARDWARE escaneó código', componente_tic:'hardware', fecha_cambio:'2024-11-15T11:00:00' },
+      { id:3, paquete_id:1, estado_anterior:'en_proceso', estado_nuevo:'en_ruta', descripcion:'En camino - RED transmitió actualización GPS', componente_tic:'red', fecha_cambio:'2024-11-15T14:30:00' },
+      { id:4, paquete_id:4, estado_anterior:null, estado_nuevo:'enviado', descripcion:'Registro inicial del paquete', componente_tic:'software', fecha_cambio:'2024-11-14T14:00:00' },
+      { id:5, paquete_id:4, estado_anterior:'enviado', estado_nuevo:'en_proceso', descripcion:'Clasificado en bodega central', componente_tic:'hardware', fecha_cambio:'2024-11-14T16:00:00' },
+      { id:6, paquete_id:4, estado_anterior:'en_proceso', estado_nuevo:'en_ruta', descripcion:'Asignado a repartidor - RED asignó ruta óptima', componente_tic:'red', fecha_cambio:'2024-11-14T18:00:00' },
+      { id:7, paquete_id:4, estado_anterior:'en_ruta', estado_nuevo:'entregado', descripcion:'USUARIO confirmó recepción con firma digital', componente_tic:'usuario', fecha_cambio:'2024-11-14T20:30:00' }
+    ];
+    DB.counter = 10;
+    guardarDB();
+  }
+}
+
+function guardarDB() {
+  localStorage.setItem('mensatic_db', JSON.stringify(DB));
+}
+
+// ================================================================
+// BANCO DE PREGUNTAS TIC
+// ================================================================
+const PREGUNTAS = [
+  {
+    id:1, nivel:'basico', categoria:'software', puntos:10,
+    pregunta:'¿Qué componente TIC se utiliza cuando el sistema GUARDA un paquete en la base de datos?',
+    opcion_a:'Hardware (servidor físico)',
+    opcion_b:'Software (base de datos MySQL)',
+    opcion_c:'Red (internet)',
+    opcion_d:'Usuario (persona)',
+    respuesta_correcta:'b',
+    explicacion:'El SOFTWARE es el componente que gestiona el almacenamiento. MySQL es un sistema de gestión de base de datos (software) que recibe, procesa y guarda la información de los paquetes.'
+  },
+  {
+    id:2, nivel:'basico', categoria:'hardware', puntos:10,
+    pregunta:'¿Qué componente TIC representa el ESCÁNER de códigos de barras en una empresa de mensajería?',
+    opcion_a:'Software (aplicación)',
+    opcion_b:'Red (Wi-Fi)',
+    opcion_c:'Hardware (dispositivo físico)',
+    opcion_d:'Usuario (empleado)',
+    respuesta_correcta:'c',
+    explicacion:'El HARDWARE incluye todos los dispositivos físicos. Un escáner de códigos de barras es hardware: es un dispositivo tangible que captura información del mundo real.'
+  },
+  {
+    id:3, nivel:'basico', categoria:'red', puntos:10,
+    pregunta:'Cuando el GPS actualiza la posición del camión en tiempo real, ¿qué componente TIC es el responsable principal?',
+    opcion_a:'Hardware (camión)',
+    opcion_b:'Software (mapa digital)',
+    opcion_c:'Red (transmisión de datos GPS)',
+    opcion_d:'Usuario (conductor)',
+    respuesta_correcta:'c',
+    explicacion:'La RED es el componente que permite la transmisión de datos. El GPS envía coordenadas a través de redes de comunicación (satélite/internet) para actualizar la posición en tiempo real.'
+  },
+  {
+    id:4, nivel:'basico', categoria:'usuario', puntos:10,
+    pregunta:'¿Cuál es el papel del USUARIO en el sistema TIC de mensajería?',
+    opcion_a:'Solo recibir paquetes',
+    opcion_b:'Interactuar con el sistema, ingresar datos y tomar decisiones',
+    opcion_c:'Mantener los servidores físicos',
+    opcion_d:'Diseñar el software desde cero',
+    respuesta_correcta:'b',
+    explicacion:'El USUARIO es quien interactúa con el sistema TIC. Ingresa datos, consulta estados, toma decisiones y es el puente entre la tecnología y los procesos reales del negocio.'
+  },
+  {
+    id:5, nivel:'intermedio', categoria:'general', puntos:20,
+    pregunta:'Un paquete llega dañado porque el sistema registró mal el peso. ¿Qué componente TIC falló principalmente?',
+    opcion_a:'Red (conexión a internet)',
+    opcion_b:'Hardware (báscula digital defectuosa)',
+    opcion_c:'Usuario (quien no verificó el peso)',
+    opcion_d:'Tanto Hardware como Usuario pueden ser responsables',
+    respuesta_correcta:'d',
+    explicacion:'Los fallos TIC pueden ser multicausales. Una báscula defectuosa (HARDWARE) da lecturas incorrectas, pero si el USUARIO no verifica los datos, también hay fallo humano. En TIC, hardware + usuario trabajan en conjunto.'
+  },
+  {
+    id:6, nivel:'intermedio', categoria:'general', puntos:20,
+    pregunta:'¿Qué sucede en el flujo TIC cuando un cliente busca su paquete por código en el sitio web?',
+    opcion_a:'Solo actúa el software',
+    opcion_b:'Usuario → Red → Software → Base de datos → Red → Usuario',
+    opcion_c:'Solo actúa la red de internet',
+    opcion_d:'Hardware → Usuario directamente',
+    respuesta_correcta:'b',
+    explicacion:'El flujo TIC completo es: USUARIO ingresa el código → RED transmite la solicitud → SOFTWARE procesa la búsqueda → BASE DE DATOS devuelve el resultado → RED lo transmite de vuelta → USUARIO ve el resultado.'
+  },
+  {
+    id:7, nivel:'intermedio', categoria:'general', puntos:20,
+    pregunta:'¿Qué componente TIC protege la información confidencial de los clientes en una mensajería?',
+    opcion_a:'Hardware (cámaras de seguridad)',
+    opcion_b:'Software (cifrado y autenticación)',
+    opcion_c:'Red (firewall)',
+    opcion_d:'Todos los anteriores en conjunto',
+    respuesta_correcta:'d',
+    explicacion:'La seguridad en TIC es responsabilidad compartida: HARDWARE protege físicamente los servidores, SOFTWARE implementa cifrado y contraseñas, RED usa firewalls y HTTPS. Los sistemas robustos usan todas las capas.'
+  },
+  {
+    id:8, nivel:'avanzado', categoria:'general', puntos:30,
+    pregunta:'Un servidor de mensajería cae por sobrecarga. ¿Cuál es la solución TIC más adecuada?',
+    opcion_a:'Cambiar todos los empleados',
+    opcion_b:'Solo mejorar el software de gestión',
+    opcion_c:'Balanceo de carga en red + escalar hardware + optimizar software',
+    opcion_d:'Comprar más computadores de escritorio',
+    respuesta_correcta:'c',
+    explicacion:'Los problemas de escalabilidad requieren soluciones TIC integrales: HARDWARE (más servidores), RED (balanceo de carga para distribuir peticiones), SOFTWARE (optimización de consultas, caché). Una sola capa no resuelve problemas sistémicos.'
+  },
+  {
+    id:9, nivel:'avanzado', categoria:'red', puntos:30,
+    pregunta:'Si hay un "error de red" al actualizar el estado de un paquete, ¿qué solución técnica aplicas?',
+    opcion_a:'Eliminar el paquete del sistema',
+    opcion_b:'Implementar reintentos automáticos, colas de mensajes y confirmación de entrega',
+    opcion_c:'Solo reiniciar el servidor',
+    opcion_d:'Llamar al cliente directamente',
+    respuesta_correcta:'b',
+    explicacion:'Los errores de RED se manejan con patrones de resiliencia: REINTENTOS (retry logic), COLAS DE MENSAJES (message queues) para no perder datos, y CONFIRMACIÓN DE ENTREGA (acknowledgment) para garantizar que el dato llegó correctamente.'
+  },
+  {
+    id:10, nivel:'avanzado', categoria:'general', puntos:30,
+    pregunta:'¿Cómo aplica el concepto de "nube" (cloud computing) en una empresa de mensajería moderna?',
+    opcion_a:'Es solo para almacenar fotos de los paquetes',
+    opcion_b:'Servidores remotos (hardware) + software de gestión accesible por red desde cualquier dispositivo',
+    opcion_c:'Es únicamente una red Wi-Fi de gran alcance',
+    opcion_d:'Solo lo usan empresas de tecnología pura',
+    respuesta_correcta:'b',
+    explicacion:'La NUBE combina los 3 componentes TIC: HARDWARE (servidores físicos en centros de datos remotos), SOFTWARE (aplicaciones web accesibles desde cualquier lugar) y RED (internet de alta velocidad). Permite gestionar paquetes desde cualquier lugar del mundo.'
+  }
+];
+
+const ERRORES_SIMULADOS = [
+  {
+    tipo: 'ERROR DE RED', codigo: 'TIMEOUT_503',
+    mensaje: 'El servidor tardó demasiado en responder. La solicitud fue cancelada después de 30 segundos de espera.\nStack trace: ConnectionTimeoutException at socket.connect() line 142',
+    componente: 'red',
+    solucion: 'Verificar conectividad de red, revisar configuración del firewall, comprobar latencia del servidor, implementar retry logic con backoff exponencial.'
+  },
+  {
+    tipo: 'ERROR DE HARDWARE', codigo: 'DISK_FULL_507',
+    mensaje: 'Espacio en disco insuficiente. No se puede guardar el nuevo paquete.\nCapacidad: 500 GB | Usado: 500 GB | Disponible: 0 bytes\nDisk write failed: /var/lib/mysql/mensajeria/',
+    componente: 'hardware',
+    solucion: 'Ampliar capacidad de almacenamiento, eliminar archivos temporales, comprimir registros antiguos, migrar a almacenamiento en la nube.'
+  },
+  {
+    tipo: 'ERROR DE SOFTWARE', codigo: 'SQL_UNIQUE_409',
+    mensaje: "SQLSTATE[23000]: Integrity constraint violation\n1062 Duplicate entry 'PKT-2024-ABC123' for key 'paquetes.codigo'\nQuery: INSERT INTO paquetes (codigo, remitente...) VALUES ('PKT-2024-ABC123'...)",
+    componente: 'software',
+    solucion: 'El software debe verificar existencia del código antes de insertar, usar UUID más robusto, implementar transacciones para garantizar unicidad.'
+  },
+  {
+    tipo: 'ERROR DE USUARIO', codigo: 'VALIDATION_422',
+    mensaje: "Unprocessable Entity: Error de validación en formulario\nCampo 'peso_kg': Se esperaba NUMBER, recibido STRING 'dos kilos'\nCampo 'destinatario': Campo obligatorio vacío\nFormulario enviado por usuario ID: 847",
+    componente: 'usuario',
+    solucion: 'Capacitar al usuario, implementar validaciones más claras en el formulario con mensajes de ayuda, agregar restricciones de tipo en los campos de entrada.'
+  }
+];
+
+const ESCENARIOS = [
+  {
+    situacion: '🚚 El sistema de rastreo GPS muestra que 15 camiones dejaron de transmitir su posición simultáneamente. Los paquetes no pueden ser monitoreados.',
+    opciones: [
+      { texto: 'Mejorar el software de rastreo', correcto: false, explicacion: 'El software solo procesa los datos que recibe. Si los 15 camiones pararon simultáneamente, el problema es la transmisión (RED), no el software.' },
+      { texto: 'Verificar la red y señal GPS', correcto: true, explicacion: '¡Correcto! 15 camiones fallando al mismo tiempo indica un problema sistémico de RED: puede ser la plataforma GPS caída, un proveedor de datos, o una zona sin cobertura.' },
+      { texto: 'Cambiar el hardware de los camiones', correcto: false, explicacion: 'Cambiar hardware de 15 camiones es costoso y no resolvería el problema si es la red la que falló. Primero hay que diagnosticar la causa raíz.' }
+    ]
+  },
+  {
+    situacion: '🏭 La bodega central registra 200 paquetes por hora pero el sistema solo procesa 50. Los demás quedan en cola y se pierden datos.',
+    opciones: [
+      { texto: 'Comprar más escáneres (hardware)', correcto: false, explicacion: 'El hardware ya escanea 200 paquetes/hora. El cuello de botella no está en la captura sino en el procesamiento. Más hardware no resuelve esto.' },
+      { texto: 'Optimizar el software y ampliar servidor', correcto: true, explicacion: '¡Correcto! El SOFTWARE necesita optimización (queries más eficientes, procesamiento asíncrono) y el HARDWARE del servidor necesita más RAM/CPU para procesar la carga.' },
+      { texto: 'Reducir el número de empleados', correcto: false, explicacion: 'Los usuarios (empleados) ya están haciendo su trabajo. El problema es que la infraestructura TIC no escala con la demanda operativa.' }
+    ]
+  },
+  {
+    situacion: '🔐 Un cliente reporta que sus datos personales y dirección de entrega fueron accedidos por terceros no autorizados.',
+    opciones: [
+      { texto: 'Solo cambiar contraseñas del sistema', correcto: false, explicacion: 'Cambiar contraseñas es un parche. Una brecha de seguridad real requiere auditoría completa, revisión de logs, posiblemente cambio de claves de cifrado y notificación a autoridades.' },
+      { texto: 'Auditar red, cifrado de datos y accesos del sistema', correcto: true, explicacion: '¡Correcto! Una brecha de seguridad involucra los 3 componentes: RED (posible interceptación), SOFTWARE (cifrado débil, vulnerabilidades) y control de accesos. Se requiere auditoría integral.' },
+      { texto: 'Reemplazar todos los computadores', correcto: false, explicacion: 'El hardware rara vez es la causa de brechas de datos. Las vulnerabilidades están casi siempre en software (código inseguro) o red (protocolos débiles).' }
+    ]
+  },
+  {
+    situacion: '⏱️ El sistema tarda 45 segundos en cargar la lista de paquetes que antes cargaba en 2 segundos. Los empleados no pueden trabajar con eficiencia.',
+    opciones: [
+      { texto: 'Aumentar el ancho de banda de internet', correcto: false, explicacion: 'Si antes tardaba 2 segundos, el ancho de banda era suficiente. La degradación del rendimiento sugiere un problema en el SOFTWARE (consultas SQL lentas) o en el HARDWARE del servidor (sobrecarga).' },
+      { texto: 'Optimizar consultas SQL y revisar la carga del servidor', correcto: true, explicacion: '¡Correcto! Una degradación gradual apunta a SOFTWARE (queries sin índices, tabla muy grande sin paginación) o HARDWARE (servidor saturado). Añadir índices MySQL y optimizar las queries es el primer paso.' },
+      { texto: 'Entrenar nuevamente a los usuarios', correcto: false, explicacion: 'Los usuarios no controlan el tiempo de respuesta del servidor. Este es claramente un problema técnico de infraestructura TIC, no de capacitación.' }
+    ]
+  }
+];
+
+// ================================================================
+// ESTADO GLOBAL DE LA APLICACIÓN
+// ================================================================
+let paqueteEditando = null;
+let errorActual = null;
+let preguntaActual = null;
+let escenarioActual = null;
+let respondidoActual = false;
+
+// ================================================================
+// INICIALIZACIÓN
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  inicializarDB();
+  actualizarMetricas();
+  cargarDashboardTabla();
+  animarCursorTerminal();
+  cargarEscenario();
+  actualizarUIpuntaje();
+});
+
+// ================================================================
+// NAVEGACIÓN
+// ================================================================
+function irA(seccion) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('activo'));
+
+  document.getElementById(`sec-${seccion}`)?.classList.add('activa');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const nombres = ['dashboard','paquetes','registrar','rastrear','desafio','errores','decisiones'];
+  const idx = nombres.indexOf(seccion);
+  if (idx >= 0) tabs[idx]?.classList.add('activo');
+
+  if (seccion === 'paquetes') renderizarTabla(DB.paquetes);
+  if (seccion === 'dashboard') { actualizarMetricas(); cargarDashboardTabla(); }
+}
+
+// ================================================================
+// MÉTRICAS DASHBOARD
+// ================================================================
+function actualizarMetricas() {
+  const paquetes = DB.paquetes;
+  document.getElementById('m-total').textContent = paquetes.length;
+  document.getElementById('m-ruta').textContent = paquetes.filter(p => p.estado === 'en_ruta').length;
+  document.getElementById('m-entregados').textContent = paquetes.filter(p => p.estado === 'entregado').length;
+  document.getElementById('m-pendientes').textContent = paquetes.filter(p => ['enviado','en_proceso'].includes(p.estado)).length;
+  document.getElementById('m-puntos').textContent = DB.puntaje.puntos;
+  document.getElementById('m-nivel').textContent = DB.puntaje.nivel;
+}
+
+function cargarDashboardTabla() {
+  const tbody = document.getElementById('dashboard-tabla');
+  const recientes = [...DB.paquetes].reverse().slice(0, 5);
+  if (!recientes.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>No hay paquetes registrados</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = recientes.map(p => `
+    <tr>
+      <td><span class="codigo-mono">${p.codigo}</span></td>
+      <td>${p.remitente}</td>
+      <td>${p.destinatario}</td>
+      <td>${badgeEstado(p.estado)}</td>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--texto-muted)">${formatearFecha(p.fecha_registro)}</td>
+    </tr>
+  `).join('');
+}
+
+// ================================================================
+// CRUD PAQUETES
+// ================================================================
+function registrarPaquete() {
+  const remitente    = document.getElementById('remitente').value.trim();
+  const destinatario = document.getElementById('destinatario').value.trim();
+  const direccion    = document.getElementById('direccion').value.trim();
+  const peso         = parseFloat(document.getElementById('peso').value) || 1.0;
+  const prioridad    = document.getElementById('prioridad').value;
+  const descripcion  = document.getElementById('descripcion').value.trim();
+
+  if (!remitente || !destinatario || !direccion) {
+    toast('Completa los campos obligatorios (remitente, destinatario y dirección)', 'error');
+    return;
+  }
+
+  // Animar flujo TIC
+  animarFlujoRegistro(async () => {
+    // Simular delay de red
+    await sleep(400);
+
+    // Generar código único
+    DB.counter++;
+    const ahora = new Date();
+    const anio = ahora.getFullYear();
+    const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const codigo = `PKT-${anio}-${rand}`;
+
+    const nuevoPaquete = {
+      id: DB.counter,
+      codigo, remitente, destinatario, direccion, peso_kg: peso,
+      descripcion, estado: 'enviado', prioridad,
+      fecha_registro: ahora.toISOString(),
+      ip_registro: '192.168.1.' + Math.floor(Math.random() * 200 + 10)
+    };
+
+    DB.paquetes.push(nuevoPaquete);
+
+    // Registrar en historial
+    DB.historial.push({
+      id: Date.now(),
+      paquete_id: DB.counter,
+      estado_anterior: null,
+      estado_nuevo: 'enviado',
+      descripcion: `Paquete creado por USUARIO. SOFTWARE procesó y guardó en localStorage. IP: ${nuevoPaquete.ip_registro}`,
+      componente_tic: 'software',
+      fecha_cambio: ahora.toISOString()
+    });
+
+    guardarDB();
+    actualizarMetricas();
+
+    // Mostrar código generado
+    document.getElementById('codigo-generado').textContent = codigo;
+    document.getElementById('codigo-generado').style.color = 'var(--verde)';
+
+    toast(`✅ Paquete ${codigo} registrado exitosamente`, 'success');
+    limpiarFormulario();
+
+    // Lanzar desafío TIC post-acción
+    await sleep(800);
+    lanzarDesafioModal('software');
+  });
+}
+
+function animarFlujoRegistro(callback) {
+  const pasos = ['r-crear','r-guardar','r-procesar','r-compartir'];
+  const ticItems = ['tic-sw','tic-hw','tic-net'];
+
+  // Reset
+  pasos.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('activo','completado');
+  });
+  document.getElementById('r-crear').classList.add('activo');
+
+  // Secuencia de animación
+  setTimeout(() => {
+    document.getElementById('r-crear').classList.remove('activo');
+    document.getElementById('r-crear').classList.add('completado');
+    document.getElementById('r-guardar').classList.add('activo');
+    activarTIC('tic-sw', '⚙️', 'Software procesando', 'Validando datos del formulario...');
+  }, 300);
+
+  setTimeout(() => {
+    document.getElementById('r-guardar').classList.remove('activo');
+    document.getElementById('r-guardar').classList.add('completado');
+    document.getElementById('r-procesar').classList.add('activo');
+    activarTIC('tic-hw', '🖥️', 'Hardware activo', 'Servidor guardando en disco...');
+  }, 900);
+
+  setTimeout(() => {
+    document.getElementById('r-procesar').classList.remove('activo');
+    document.getElementById('r-procesar').classList.add('completado');
+    document.getElementById('r-compartir').classList.add('activo');
+    activarTIC('tic-net', '🌐', 'Red transmitiendo', 'Enviando confirmación JSON...');
+  }, 1500);
+
+  setTimeout(() => {
+    document.getElementById('r-compartir').classList.remove('activo');
+    document.getElementById('r-compartir').classList.add('completado');
+    callback();
+  }, 2100);
+}
+
+function activarTIC(id, icono, nombre, desc) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.opacity = '1';
+  el.style.background = 'rgba(108,99,255,0.08)';
+  el.style.border = '1px solid rgba(108,99,255,0.3)';
+  el.querySelector('div:nth-child(2) div:first-child').textContent = nombre;
+  el.querySelector('div:nth-child(2) div:last-child').textContent = desc;
+}
+
+function limpiarFormulario() {
+  ['remitente','destinatario','direccion','descripcion'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('peso').value = '1.0';
+  document.getElementById('prioridad').value = 'normal';
+}
+
+// ================================================================
+// TABLA DE PAQUETES
+// ================================================================
+function renderizarTabla(paquetes) {
+  const tbody = document.getElementById('tabla-paquetes');
+  if (!paquetes.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📭</div><p>No hay paquetes registrados aún</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = [...paquetes].reverse().map(p => `
+    <tr>
+      <td><span class="codigo-mono">${p.codigo}</span></td>
+      <td style="font-size:13px">${p.remitente}</td>
+      <td style="font-size:13px">${p.destinatario}</td>
+      <td style="font-family:var(--mono);font-size:13px;color:var(--texto-muted)">${p.peso_kg} kg</td>
+      <td><span class="prioridad-${p.prioridad}">${p.prioridad.toUpperCase()}</span></td>
+      <td>${badgeEstado(p.estado)}</td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--texto-muted)">${formatearFecha(p.fecha_registro)}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="abrirModal(${p.id})">✏️</button>
+          <button class="btn btn-peligro btn-sm" onclick="eliminarPaquete(${p.id})">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filtrarTabla() {
+  const texto = document.getElementById('filtro-buscar').value.toLowerCase();
+  const estado = document.getElementById('filtro-estado').value;
+  const filtrados = DB.paquetes.filter(p => {
+    const coincideTexto = !texto || 
+      p.codigo.toLowerCase().includes(texto) ||
+      p.remitente.toLowerCase().includes(texto) ||
+      p.destinatario.toLowerCase().includes(texto);
+    const coincideEstado = !estado || p.estado === estado;
+    return coincideTexto && coincideEstado;
+  });
+  renderizarTabla(filtrados);
+}
+
+function abrirModal(id) {
+  paqueteEditando = DB.paquetes.find(p => p.id === id);
+  if (!paqueteEditando) return;
+  document.getElementById('modal-codigo-label').textContent = paqueteEditando.codigo;
+  document.getElementById('modal-detalle-label').textContent = `${paqueteEditando.remitente} → ${paqueteEditando.destinatario}`;
+  document.getElementById('modal-estado').value = paqueteEditando.estado;
+  document.getElementById('modal-obs').value = '';
+  document.getElementById('modal-editar').classList.add('visible');
+}
+
+function cerrarModal() {
+  document.getElementById('modal-editar').classList.remove('visible');
+  paqueteEditando = null;
+}
+
+function actualizarEstado() {
+  if (!paqueteEditando) return;
+  const nuevoEstado = document.getElementById('modal-estado').value;
+  const obs = document.getElementById('modal-obs').value;
+  const estadoAnterior = paqueteEditando.estado;
+
+  const mapaTIC = { enviado:'usuario', en_proceso:'hardware', en_ruta:'red', entregado:'usuario' };
+  const componente = mapaTIC[nuevoEstado];
+
+  paqueteEditando.estado = nuevoEstado;
+  paqueteEditando.observaciones = obs;
+
+  DB.historial.push({
+    id: Date.now(),
+    paquete_id: paqueteEditando.id,
+    estado_anterior: estadoAnterior,
+    estado_nuevo: nuevoEstado,
+    descripcion: `Estado actualizado de '${estadoAnterior}' a '${nuevoEstado}'. Componente TIC: ${componente.toUpperCase()}. ${obs}`,
+    componente_tic: componente,
+    fecha_cambio: new Date().toISOString()
+  });
+
+  guardarDB();
+  cerrarModal();
+  renderizarTabla(DB.paquetes);
+  actualizarMetricas();
+  toast(`✅ Estado actualizado a: ${nuevoEstado.replace('_',' ')}`, 'success');
+
+  setTimeout(() => lanzarDesafioModal(componente), 500);
+}
+
+function eliminarPaquete(id) {
+  if (!confirm('¿Confirmas que deseas eliminar este paquete del sistema?\n\nEsta acción simula la operación SQL: DELETE FROM paquetes WHERE id = ' + id)) return;
+  DB.paquetes = DB.paquetes.filter(p => p.id !== id);
+  DB.historial = DB.historial.filter(h => h.paquete_id !== id);
+  guardarDB();
+  renderizarTabla(DB.paquetes);
+  actualizarMetricas();
+  toast('🗑️ Paquete eliminado del sistema', 'warning');
+}
+
+// ================================================================
+// RASTREADOR
+// ================================================================
+function rastrearCodigo(codigo) {
+  document.getElementById('input-codigo').value = codigo;
+  rastrearPaquete();
+}
+
+function rastrearPaquete() {
+  const codigo = document.getElementById('input-codigo').value.trim().toUpperCase();
+  const contenedor = document.getElementById('resultado-rastreo');
+
+  if (!codigo) {
+    contenedor.innerHTML = '<div style="color:var(--rojo);font-family:var(--mono);font-size:13px;">⚠️ Ingresa un código de paquete</div>';
+    return;
+  }
+
+  // Simular delay de red
+  contenedor.innerHTML = `
+    <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;text-align:center;">
+      <div style="font-family:var(--mono);font-size:14px;color:var(--texto-muted)">
+        🌐 Consultando RED → SOFTWARE → Base de datos...
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const paquete = DB.paquetes.find(p => p.codigo === codigo);
+
+    if (!paquete) {
+      contenedor.innerHTML = `
+        <div style="background:var(--rojo-bg);border:1px solid rgba(255,77,109,0.3);border-radius:var(--radio-lg);padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="font-family:var(--mono);font-size:13px;color:var(--rojo);margin-bottom:8px;">ERROR 404 — NOT_FOUND</div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:8px;">Paquete no encontrado en el sistema</div>
+          <div style="font-size:13px;color:var(--texto-muted)">El código <strong style="color:var(--rojo)">${codigo}</strong> no existe en la base de datos.</div>
+        </div>
+        <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.25rem;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Diagnóstico TIC del error</div>
+          <div style="font-size:13px;line-height:1.7;color:var(--texto-muted)">
+            <span style="color:var(--accent)">SOFTWARE (MySQL)</span> ejecutó: <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:12px;">SELECT * FROM paquetes WHERE codigo = '${codigo}'</code><br>
+            Resultado devuelto: <span style="color:var(--rojo)">0 filas</span> — El código no existe en la base de datos.<br>
+            La RED transmitió correctamente la solicitud; el fallo fue en la consulta de SOFTWARE.
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    const historial = DB.historial.filter(h => h.paquete_id === paquete.id);
+    const mapaTIC = { software:'#acc', hardware:'var(--naranja)', red:'var(--azul)', usuario:'var(--verde)' };
+    const mapaIcono = { software:'⚙️', hardware:'🖥️', red:'🌐', usuario:'👤' };
+
+    contenedor.innerHTML = `
+      <!-- Info del paquete -->
+      <div style="background:var(--negro-card);border:1px solid var(--borde);border-radius:var(--radio-lg);padding:1.5rem;margin-bottom:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--texto-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Código de rastreo</div>
+            <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--accent)">${paquete.codigo}</div>
+          </div>
+          ${badgeEstado(paquete.estado)}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div>
+            <div style="font-size:11px;color:var(--texto-muted);text-transform:uppercase;font-family:var(--mono);letter-spacing:0.5px;margin-bottom:4px;">Remitente</div>
+            <div style="font-size:14px;font-weight:500">${paquete.remitente}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--texto-muted);text-transform:uppercase;font-family:var(--mono);letter-spacing:0.5px;margin-bottom:4px;">Destinatario</div>
+            <div style="font-size:14px;font-weight:500">${paquete.destinatario}</div>
+          </div>
+          <div style="grid-column:1/-1">
+            <div style="font-size:11px;color:var(--texto-muted);text-transform:uppercase;font-family:var(--mono);letter-spacing:0.5px;margin-bottom:4px;">Dirección de entrega</div>
+            <div style="font-size:14px">${paquete.direccion}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--texto-muted);text-transform:uppercase;font-family:var(--mono);letter-spacing:0.5px;margin-bottom:4px;">Peso</div>
+            <div style="font-size:14px;font-family:var(--mono)">${paquete.peso_kg} kg</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--texto-muted);text-transform:uppercase;font-family:var(--mono);letter-spacing:0.5px;margin-bottom:4px;">Prioridad</div>
+            <div class="prioridad-${paquete.prioridad}" style="font-size:14px;">${paquete.prioridad.toUpperCase()}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flujo TIC de la consulta -->
+      <div class="flujo-tic" style="margin-bottom:1.5rem;">
+        <div class="flujo-titulo">Flujo TIC — Esta consulta de rastreo</div>
+        <div class="flujo-pasos">
+          <div class="flujo-paso completado">
+            <div class="paso-num">01 / CREAR</div>
+            <div class="paso-nombre"><span class="paso-check">✓</span> Solicitud</div>
+            <div class="paso-desc">USUARIO ingresó código "${codigo}" en el buscador</div>
+          </div>
+          <div class="flujo-paso completado">
+            <div class="paso-num">02 / TRANSMITIR</div>
+            <div class="paso-nombre"><span class="paso-check">✓</span> Red</div>
+            <div class="paso-desc">RED envió petición al servidor vía protocolo HTTP</div>
+          </div>
+          <div class="flujo-paso completado">
+            <div class="paso-num">03 / PROCESAR</div>
+            <div class="paso-nombre"><span class="paso-check">✓</span> Software</div>
+            <div class="paso-desc">SOFTWARE consultó: SELECT * FROM paquetes WHERE codigo='${codigo}'</div>
+          </div>
+          <div class="flujo-paso completado">
+            <div class="paso-num">04 / RESPUESTA</div>
+            <div class="paso-nombre"><span class="paso-check">✓</span> Entregado</div>
+            <div class="paso-desc">RED devolvió datos JSON al navegador del USUARIO</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline historial -->
+      <h3 style="font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:1.25rem;">Historial de eventos TIC</h3>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        ${historial.map((h, i) => `
+          <div class="timeline-item" style="padding-left:0;margin-bottom:${i < historial.length-1 ? '0' : '0'}">
+            <div class="timeline-dot" style="background:rgba(108,99,255,0.1);border-color:rgba(108,99,255,0.4)">${mapaIcono[h.componente_tic] || '📌'}</div>
+            <div class="timeline-content">
+              <div class="timeline-title">${h.estado_anterior ? `${h.estado_anterior.replace('_',' ')} → ${h.estado_nuevo.replace('_',' ')}` : `Estado inicial: ${h.estado_nuevo}`}</div>
+              <div class="timeline-desc">${h.descripcion}</div>
+              <div class="timeline-fecha">${formatearFecha(h.fecha_cambio)}</div>
+              <span class="timeline-tic-badge" style="background:rgba(108,99,255,0.1);color:var(--accent);border:1px solid rgba(108,99,255,0.2);">${mapaIcono[h.componente_tic]} ${h.componente_tic.toUpperCase()}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }, 800);
+}
+
+// ================================================================
+// DESAFÍO TIC
+// ================================================================
+function nuevaPregunta() {
+  const nivel = DB.puntaje.nivel;
+  const preguntasNivel = PREGUNTAS.filter(p => p.nivel === nivel);
+  const pool = preguntasNivel.length > 0 ? preguntasNivel : PREGUNTAS;
+  preguntaActual = pool[Math.floor(Math.random() * pool.length)];
+  respondidoActual = false;
+  renderPregunta(document.getElementById('pregunta-actual'), preguntaActual);
+}
+
+function renderPregunta(contenedor, pregunta) {
+  const catClass = `cat-${pregunta.categoria}`;
+  contenedor.innerHTML = `
+    <div class="pregunta-card">
+      <div class="pregunta-meta">
+        <span class="pregunta-categoria ${catClass}">${pregunta.categoria.toUpperCase()}</span>
+        <span class="pregunta-pts">+${pregunta.puntos} pts</span>
+      </div>
+      <div class="pregunta-texto">${pregunta.pregunta}</div>
+      <div class="opciones-grid">
+        ${['a','b','c','d'].map(letra => `
+          <button class="opcion-btn" id="op-${letra}" onclick="responderDesafio('${letra}')">
+            <span class="letra-opcion">${letra.toUpperCase()}</span>
+            <span>${pregunta['opcion_' + letra]}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback-card" id="feedback-desafio"></div>
+    </div>
+  `;
+}
+
+function responderDesafio(letra) {
+  if (respondidoActual || !preguntaActual) return;
+  respondidoActual = true;
+  procesarRespuesta(preguntaActual, letra, 'feedback-desafio', 'op-');
+}
+
+function procesarRespuesta(pregunta, letra, feedbackId, prefixId) {
+  const esCorrecta = letra === pregunta.respuesta_correcta;
+
+  // Deshabilitar todas las opciones
+  ['a','b','c','d'].forEach(l => {
+    const btn = document.getElementById(prefixId + l);
+    if (!btn) return;
+    btn.disabled = true;
+    if (l === pregunta.respuesta_correcta) btn.classList.add('correcta');
+    if (l === letra && !esCorrecta) btn.classList.add('incorrecta');
+  });
+
+  // Mostrar feedback
+  const feedback = document.getElementById(feedbackId);
+  if (feedback) {
+    feedback.style.display = 'block';
+    feedback.className = `feedback-card ${esCorrecta ? 'correcto' : 'incorrecto'}`;
+    feedback.innerHTML = `
+      <div><strong>${esCorrecta ? '✅ ¡Correcto!' : '❌ Incorrecto'}</strong> ${esCorrecta ? '+' + pregunta.puntos + ' puntos ganados' : 'La respuesta correcta era: ' + pregunta.respuesta_correcta.toUpperCase()}</div>
+      <div class="feedback-explicacion">💡 ${pregunta.explicacion}</div>
+    `;
+  }
+
+  // Actualizar puntaje
+  if (esCorrecta) {
+    DB.puntaje.puntos += pregunta.puntos;
+    DB.puntaje.correctas++;
+    toast(`🎉 ¡Correcto! +${pregunta.puntos} puntos`, 'success');
+  } else {
+    DB.puntaje.incorrectas++;
+    toast('❌ Respuesta incorrecta. Lee la explicación', 'error');
+  }
+
+  // Recalcular nivel
+  if (DB.puntaje.puntos >= 150) DB.puntaje.nivel = 'avanzado';
+  else if (DB.puntaje.puntos >= 60) DB.puntaje.nivel = 'intermedio';
+  else DB.puntaje.nivel = 'basico';
+
+  guardarDB();
+  actualizarUIpuntaje();
+}
+
+function actualizarUIpuntaje() {
+  const p = DB.puntaje;
+  const niveles = { basico: { max: 60, prev: 0, clase: 'badge-basico', nombre: 'Básico' }, intermedio: { max: 150, prev: 60, clase: 'badge-intermedio', nombre: 'Intermedio' }, avanzado: { max: 300, prev: 150, clase: 'badge-avanzado', nombre: 'Avanzado' } };
+  const n = niveles[p.nivel];
+  const progreso = Math.min(100, Math.round(((p.puntos - n.prev) / (n.max - n.prev)) * 100));
+
+  // Header
+  document.getElementById('pts-header').textContent = p.puntos + ' pts';
+  const badgeEl = document.getElementById('nivel-badge');
+  badgeEl.className = `badge-nivel ${n.clase}`;
+  badgeEl.textContent = n.nombre;
+
+  // Panel desafío
+  document.getElementById('pts-big').textContent = p.puntos;
+  document.getElementById('pts-correctas').textContent = p.correctas;
+  document.getElementById('pts-incorrectas').textContent = p.incorrectas;
+  document.getElementById('progreso-fill').style.width = progreso + '%';
+  document.getElementById('progreso-nivel-label').textContent = n.nombre;
+  document.getElementById('progreso-pts-label').textContent = `${p.puntos} / ${n.max} pts`;
+
+  // Métricas
+  document.getElementById('m-puntos').textContent = p.puntos;
+  document.getElementById('m-nivel').textContent = p.nivel;
+
+  // Filas de nivel
+  ['basico','intermedio','avanzado'].forEach(nv => {
+    const row = document.getElementById(`row-${nv}`);
+    if (!row) return;
+    row.style.opacity = p.nivel === nv ? '1' : (
+      (nv === 'intermedio' && p.nivel === 'avanzado') ? '0.8' : '0.4'
+    );
+  });
+}
+
+// Desafío modal post-acción
+function lanzarDesafioModal(categoria) {
+  const pool = PREGUNTAS.filter(p => p.categoria === categoria || p.categoria === 'general');
+  const pregunta = pool[Math.floor(Math.random() * pool.length)];
+  if (!pregunta) return;
+
+  let respondido = false;
+  const contenido = document.getElementById('modal-desafio-contenido');
+  contenido.innerHTML = `
+    <div class="pregunta-card" style="margin:0">
+      <div class="pregunta-meta">
+        <span class="pregunta-categoria cat-${pregunta.categoria}">${pregunta.categoria.toUpperCase()}</span>
+        <span class="pregunta-pts">+${pregunta.puntos} pts</span>
+      </div>
+      <div class="pregunta-texto">${pregunta.pregunta}</div>
+      <div class="opciones-grid">
+        ${['a','b','c','d'].map(l => `
+          <button class="opcion-btn" id="mop-${l}" onclick="responderModal('${l}',${JSON.stringify(pregunta).replace(/'/g,'\\\'')})">
+            <span class="letra-opcion">${l.toUpperCase()}</span>
+            <span>${pregunta['opcion_' + l]}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback-card" id="feedback-modal"></div>
+    </div>
+  `;
+  document.getElementById('modal-desafio').classList.add('visible');
+}
+
+function responderModal(letra, preguntaStr) {
+  const pregunta = typeof preguntaStr === 'string' ? JSON.parse(preguntaStr) : preguntaStr;
+  procesarRespuesta(pregunta, letra, 'feedback-modal', 'mop-');
+}
+
+function cerrarModalDesafio() {
+  document.getElementById('modal-desafio').classList.remove('visible');
+}
+
+// ================================================================
+// ERRORES TIC
+// ================================================================
+let cursorInterval;
+function animarCursorTerminal() {
+  const cursor = document.getElementById('cursor-terminal');
+  let visible = true;
+  cursorInterval = setInterval(() => {
+    if (cursor) { cursor.style.opacity = visible ? '1' : '0'; visible = !visible; }
+  }, 500);
+}
+
+function simularError() {
+  errorActual = ERRORES_SIMULADOS[Math.floor(Math.random() * ERRORES_SIMULADOS.length)];
+  const terminal = document.getElementById('terminal-errores');
+
+  const lineas = errorActual.mensaje.split('\n');
+  terminal.innerHTML = `
+    <div class="terminal-prompt">$ iniciar-proceso --accion=actualizar-paquete</div>
+    <div class="terminal-muted">Conectando con servidor de base de datos...</div>
+    <div class="terminal-muted">Verificando componentes TIC...</div>
+    <div class="terminal-error">⚠️  ${errorActual.tipo} [${errorActual.codigo}]</div>
+    ${lineas.map(l => `<div class="terminal-error">${l}</div>`).join('')}
+    <div class="terminal-muted">─────────────────────────────────────</div>
+    <div class="terminal-warn">Sistema detenido. Se requiere diagnóstico.</div>
+    <div class="terminal-muted" id="cursor-terminal">_</div>
+  `;
+
+  animarCursorTerminal();
+  document.getElementById('btn-diagnosticar').style.display = 'inline-flex';
+  document.getElementById('panel-diagnostico').style.display = 'none';
+  document.getElementById('resultado-diagnostico').style.display = 'none';
+  // reset botones
+  document.querySelectorAll('#opciones-diagnostico .decision-btn').forEach(b => {
+    b.classList.remove('correcto','incorrecto');
+    b.disabled = false;
+  });
+
+  toast('⚠️ Error simulado generado. ¡Diagnostica qué componente TIC falló!', 'warning');
+}
+
+function mostrarDiagnostico() {
+  document.getElementById('panel-diagnostico').style.display = 'block';
+  document.getElementById('resultado-diagnostico').style.display = 'none';
+}
+
+function diagnosticar(componente) {
+  if (!errorActual) return;
+  const esCorrecta = componente === errorActual.componente;
+
+  // Actualizar botones
+  document.querySelectorAll('#opciones-diagnostico .decision-btn').forEach(b => b.disabled = true);
+  event.target.classList.add(esCorrecta ? 'correcto' : 'incorrecto');
+  if (!esCorrecta) {
+    document.querySelectorAll('#opciones-diagnostico .decision-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(errorActual.componente)) b.classList.add('correcto');
+    });
+  }
+
+  const resultado = document.getElementById('resultado-diagnostico');
+  resultado.style.display = 'block';
+  resultado.innerHTML = `
+    <div style="background:${esCorrecta ? 'var(--verde-bg)' : 'var(--rojo-bg)'};border:1px solid ${esCorrecta ? 'rgba(0,214,143,0.3)' : 'rgba(255,77,109,0.3)'};border-radius:var(--radio-lg);padding:1.25rem;">
+      <div style="font-weight:700;font-size:15px;color:${esCorrecta ? 'var(--verde)' : 'var(--rojo)'};margin-bottom:8px;">
+        ${esCorrecta ? '✅ ¡Diagnóstico correcto!' : '❌ Diagnóstico incorrecto'}
+      </div>
+      <div style="font-size:14px;color:var(--texto);margin-bottom:8px;">
+        El componente que falló fue: <strong>${errorActual.componente.toUpperCase()}</strong>
+      </div>
+      <div style="font-size:13px;color:var(--texto-muted);margin-bottom:12px;">
+        ${esCorrecta ? 'Excelente análisis TIC. ' : 'Recuerda: '} La solución técnica recomendada es:
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--texto);">
+        💡 ${errorActual.solucion}
+      </div>
+    </div>
+  `;
+
+  // Sumar puntos si acertó
+  if (esCorrecta) {
+    DB.puntaje.puntos += 15;
+    DB.puntaje.correctas++;
+    if (DB.puntaje.puntos >= 150) DB.puntaje.nivel = 'avanzado';
+    else if (DB.puntaje.puntos >= 60) DB.puntaje.nivel = 'intermedio';
+    guardarDB();
+    actualizarUIpuntaje();
+    toast('🎉 ¡Correcto! +15 puntos por diagnóstico TIC', 'success');
+  } else {
+    DB.puntaje.incorrectas++;
+    guardarDB();
+    toast('❌ Diagnóstico incorrecto. Lee la solución', 'error');
+  }
+}
+
+// ================================================================
+// ESCENARIOS DE DECISIÓN
+// ================================================================
+function cargarEscenario() {
+  escenarioActual = ESCENARIOS[Math.floor(Math.random() * ESCENARIOS.length)];
+  const contenedor = document.getElementById('escenarios-container');
+  contenedor.innerHTML = `
+    <div class="escenario-card">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--naranja);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">
+        ⚡ Escenario de Crisis TIC
+      </div>
+      <div class="escenario-situacion">${escenarioActual.situacion}</div>
+      <div style="font-size:13px;color:var(--texto-muted);margin-bottom:1rem;font-family:var(--mono)">¿Qué solución TIC aplicarías?</div>
+      <div class="decisiones-grid">
+        ${escenarioActual.opciones.map((op, i) => `
+          <button class="decision-btn" id="dec-${i}" onclick="responderEscenario(${i})">${op.texto}</button>
+        `).join('')}
+      </div>
+      <div id="resultado-escenario" style="display:none;margin-top:1.25rem;"></div>
+    </div>
+  `;
+}
+
+function responderEscenario(idx) {
+  const opcion = escenarioActual.opciones[idx];
+  document.querySelectorAll('.decision-btn').forEach(b => b.disabled = true);
+  document.getElementById(`dec-${idx}`).classList.add(opcion.correcto ? 'correcto' : 'incorrecto');
+  if (!opcion.correcto) {
+    escenarioActual.opciones.forEach((op, i) => {
+      if (op.correcto) document.getElementById(`dec-${i}`)?.classList.add('correcto');
+    });
+  }
+
+  const res = document.getElementById('resultado-escenario');
+  res.style.display = 'block';
+  res.innerHTML = `
+    <div style="background:${opcion.correcto ? 'var(--verde-bg)' : 'var(--rojo-bg)'};border:1px solid ${opcion.correcto ? 'rgba(0,214,143,0.3)' : 'rgba(255,77,109,0.3)'};border-radius:var(--radio);padding:1.25rem;">
+      <div style="font-weight:700;color:${opcion.correcto ? 'var(--verde)' : 'var(--rojo)'};margin-bottom:8px;">
+        ${opcion.correcto ? '✅ ¡Decisión acertada!' : '❌ No es la mejor opción'}
+      </div>
+      <div style="font-size:14px;color:var(--texto);">💡 ${opcion.explicacion}</div>
+    </div>
+  `;
+
+  if (opcion.correcto) {
+    DB.puntaje.puntos += 25;
+    DB.puntaje.correctas++;
+    if (DB.puntaje.puntos >= 150) DB.puntaje.nivel = 'avanzado';
+    else if (DB.puntaje.puntos >= 60) DB.puntaje.nivel = 'intermedio';
+    guardarDB();
+    actualizarUIpuntaje();
+    toast('🎉 ¡Decisión correcta! +25 puntos', 'success');
+  } else {
+    DB.puntaje.incorrectas++;
+    guardarDB();
+    toast('❌ No era la mejor solución TIC. Lee la explicación', 'error');
+  }
+}
+
+// ================================================================
+// UTILIDADES
+// ================================================================
+function badgeEstado(estado) {
+  const clases = { enviado:'estado-enviado', en_proceso:'estado-en_proceso', en_ruta:'estado-en_ruta', entregado:'estado-entregado' };
+  const textos = { enviado:'Enviado', en_proceso:'En proceso', en_ruta:'En ruta', entregado:'Entregado' };
+  return `<span class="estado-badge ${clases[estado] || ''}">${textos[estado] || estado}</span>`;
+}
+
+function formatearFecha(fecha) {
+  if (!fecha) return '—';
+  const d = new Date(fecha);
+  return d.toLocaleDateString('es-CO', { day:'2-digit', month:'short', year:'numeric' }) + ' ' +
+         d.toLocaleTimeString('es-CO', { hour:'2-digit', minute:'2-digit' });
+}
+
+function toast(mensaje, tipo = 'info') {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${tipo}`;
+  t.textContent = mensaje;
+  container.appendChild(t);
+  setTimeout(() => {
+    t.style.animation = 'slideOut 0.3s ease forwards';
+    setTimeout(() => t.remove(), 300);
+  }, 3500);
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Cerrar modales al hacer clic fuera
+document.getElementById('modal-editar').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModal();
+});
+document.getElementById('modal-desafio').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModalDesafio();
+});
+</script>
+</body>
+</html>
